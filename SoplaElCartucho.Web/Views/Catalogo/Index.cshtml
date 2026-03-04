@@ -1,7 +1,24 @@
 @model System.Collections.Generic.List<SoplaElCartucho.Web.Models.Juego>
+@using System.Web
 @{
     ViewBag.Title = "Catálogo";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    Func<string, string> crearPlaceholder = (titulo) =>
+    {
+        var texto = string.IsNullOrWhiteSpace(titulo) ? "Juego Retro" : titulo;
+        var svg = $@"<svg xmlns='http://www.w3.org/2000/svg' width='360' height='240'>
+<defs>
+    <linearGradient id='g' x1='0%' y1='0%' x2='100%' y2='100%'>
+        <stop offset='0%' stop-color='#1a0f2b' />
+        <stop offset='100%' stop-color='#0a0814' />
+    </linearGradient>
+</defs>
+<rect width='100%' height='100%' fill='url(#g)' />
+<rect x='12' y='12' width='336' height='216' fill='none' stroke='#00ffff' stroke-width='4' stroke-dasharray='6 4' />
+<text x='50%' y='55%' fill='#00ff00' font-size='20' font-family=""'Press Start 2P', monospace"" text-anchor='middle'>{HttpUtility.HtmlEncode(texto)}</text>
+</svg>";
+        return "data:image/svg+xml;utf8," + HttpUtility.UrlEncode(svg);
+    };
 }
 
 @* 
@@ -105,9 +122,12 @@
                         </div>
                     }
                     
-                    @* ⚠️ LEGACY: Placeholder de imagen *@
-                    <div style="width: 120px; height: 120px; background-color: #222; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 2px solid #333;">
-                        🎮
+                    @{
+                        var imagenJuego = !string.IsNullOrWhiteSpace(juego.ImagenUrl) ? Url.Content(juego.ImagenUrl) : null;
+                        var placeholderJuego = crearPlaceholder(juego.Titulo);
+                    }
+                    <div style="width: 140px; height: 140px; background-color: #000; margin: 0 auto; display: flex; align-items: center; justify-content: center; border: 2px solid #333;">
+                        <img src="@(imagenJuego ?? placeholderJuego)" alt="Carátula de @juego.Titulo" style="max-width: 100%; max-height: 100%; object-fit: contain; image-rendering: pixelated;" onerror="this.onerror=null;this.src='@placeholderJuego';" />
                     </div>
                     
                     <h4 style="color: #ffffff; margin: 15px 0 5px; font-size: 10px; min-height: 40px;">

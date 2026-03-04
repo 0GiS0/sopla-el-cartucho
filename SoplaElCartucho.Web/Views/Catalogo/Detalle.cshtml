@@ -1,8 +1,25 @@
 @model SoplaElCartucho.Web.Models.Juego
+@using System.Web
 @{
     ViewBag.Title = Model.Titulo;
     Layout = "~/Views/Shared/_Layout.cshtml";
     var consola = ViewBag.Consola as SoplaElCartucho.Web.Models.Consola;
+    Func<string, string> crearPlaceholder = (titulo) =>
+    {
+        var texto = string.IsNullOrWhiteSpace(titulo) ? "Juego Retro" : titulo;
+        var svg = $@"<svg xmlns='http://www.w3.org/2000/svg' width='420' height='420'>
+<defs>
+    <linearGradient id='g' x1='0%' y1='0%' x2='100%' y2='100%'>
+        <stop offset='0%' stop-color='#1b1233' />
+        <stop offset='100%' stop-color='#0d0a18' />
+    </linearGradient>
+</defs>
+<rect width='100%' height='100%' fill='url(#g)' />
+<rect x='16' y='16' width='388' height='388' fill='none' stroke='#ff00ff' stroke-width='5' stroke-dasharray='8 6' />
+<text x='50%' y='55%' fill='#00ff00' font-size='22' font-family=""'Press Start 2P', monospace"" text-anchor='middle'>{HttpUtility.HtmlEncode(texto)}</text>
+</svg>";
+        return "data:image/svg+xml;utf8," + HttpUtility.UrlEncode(svg);
+    };
 }
 
 @* 
@@ -36,8 +53,12 @@
         <tr>
             @* Imagen del juego *@
             <td style="width: 40%; padding: 30px; text-align: center; vertical-align: top;">
-                <div style="width: 250px; height: 250px; background-color: #222; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 80px; border: 4px solid #333;">
-                    🎮
+                @{
+                    var imagenJuego = !string.IsNullOrWhiteSpace(Model.ImagenUrl) ? Url.Content(Model.ImagenUrl) : null;
+                    var placeholderJuego = crearPlaceholder(Model.Titulo);
+                }
+                <div style="width: 260px; height: 260px; background-color: #000; margin: 0 auto; display: flex; align-items: center; justify-content: center; border: 4px solid #333;">
+                    <img src="@(imagenJuego ?? placeholderJuego)" alt="Carátula de @Model.Titulo" style="max-width: 100%; max-height: 100%; object-fit: contain; image-rendering: pixelated;" onerror="this.onerror=null;this.src='@placeholderJuego';" />
                 </div>
                 
                 @if (Model.Destacado)
@@ -176,8 +197,12 @@
                     @foreach (var relacionado in relacionados)
                     {
                         <td style="background-color: #111; border: 2px solid #333; padding: 15px; text-align: center; width: 25%;">
-                            <div style="width: 80px; height: 80px; background-color: #222; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 30px;">
-                                🎮
+                            @{
+                                var imagenRelacionado = !string.IsNullOrWhiteSpace(relacionado.ImagenUrl) ? Url.Content(relacionado.ImagenUrl) : null;
+                                var placeholderRelacionado = crearPlaceholder(relacionado.Titulo);
+                            }
+                            <div style="width: 90px; height: 90px; background-color: #000; margin: 0 auto; display: flex; align-items: center; justify-content: center; border: 2px solid #333;">
+                                <img src="@(imagenRelacionado ?? placeholderRelacionado)" alt="Carátula de @relacionado.Titulo" style="max-width: 100%; max-height: 100%; object-fit: contain; image-rendering: pixelated;" onerror="this.onerror=null;this.src='@placeholderRelacionado';" />
                             </div>
                             <h4 style="color: #fff; font-size: 8px; margin: 10px 0; min-height: 30px;">@relacionado.Titulo</h4>
                             <p style="color: #00ff00; font-size: 10px;">@relacionado.Precio.ToString("C")</p>
