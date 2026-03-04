@@ -1,0 +1,49 @@
+# Configuración de Dependabot para Sopla el Cartucho
+# Este archivo configura cómo Dependabot monitoreará y actualizará las dependencias del proyecto
+
+version: 2
+updates:
+  # Configuración para dependencias NuGet
+  # Monitorea los archivos packages.config en todo el repositorio
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      # Verificar actualizaciones semanalmente los lunes
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Madrid"
+    # Límite de pull requests abiertos
+    open-pull-requests-limit: 5
+    # Etiquetas para los PRs de Dependabot
+    labels:
+      - "dependencies"
+      - "nuget"
+    # Agrupar actualizaciones de versiones menores y parches cuando sea posible
+    # para reducir el número de PRs individuales
+    groups:
+      aspnet-mvc:
+        patterns:
+          - "Microsoft.AspNet.*"
+      mstest:
+        patterns:
+          - "MSTest.*"
+    # Prefijo para los commits de Dependabot
+    commit-message:
+      prefix: "nuget"
+      include: "scope"
+
+  # Configuración para GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Madrid"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci"
