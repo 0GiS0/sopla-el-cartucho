@@ -36,8 +36,15 @@
         <tr>
             @* Imagen del juego *@
             <td style="width: 40%; padding: 30px; text-align: center; vertical-align: top;">
-                <div style="width: 250px; height: 250px; background-color: #222; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 80px; border: 4px solid #333;">
-                    🎮
+                <div style="width: 250px; height: 250px; margin: 0 auto; border: 4px solid #333; overflow: hidden; display: flex; align-items: center; justify-content: center; background-color: #222;">
+                    @if (!string.IsNullOrEmpty(Model.ImagenUrl))
+                    {
+                        <img src="@Model.ImagenUrl" alt="@Model.Titulo" style="max-width: 100%; max-height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=&quot;font-size: 80px;&quot;>🎮</span>';" />
+                    }
+                    else
+                    {
+                        <span style="font-size: 80px;">🎮</span>
+                    }
                 </div>
                 
                 @if (Model.Destacado)
@@ -176,12 +183,19 @@
                     @foreach (var relacionado in relacionados)
                     {
                         <td style="background-color: #111; border: 2px solid #333; padding: 15px; text-align: center; width: 25%;">
-                            <div style="width: 80px; height: 80px; background-color: #222; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 30px;">
-                                🎮
+                            <div style="width: 80px; height: 80px; margin: 0 auto; border: 2px solid #333; overflow: hidden; display: flex; align-items: center; justify-content: center; background-color: #222;">
+                                @if (!string.IsNullOrEmpty(relacionado.ImagenUrl))
+                                {
+                                    <img src="@relacionado.ImagenUrl" alt="@relacionado.Titulo" style="max-width: 100%; max-height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.parentElement.innerHTML='🎮';" />
+                                }
+                                else
+                                {
+                                    <span style="font-size: 30px;">🎮</span>
+                                }
                             </div>
                             <h4 style="color: #fff; font-size: 8px; margin: 10px 0; min-height: 30px;">@relacionado.Titulo</h4>
                             <p style="color: #00ff00; font-size: 10px;">@relacionado.Precio.ToString("C")</p>
-                            <a href="@Url.Action("Detalle", new { id = relacionado.Id, slug = relacionado.ObtenerSlug() })" 
+                            <a href="@Url.Action("Detalle", new { id = relacionado.Id, slug = relacionado.ObtenerSlug() })"
                                style="font-size: 8px; color: #00ffff;">Ver más →</a>
                         </td>
                     }
