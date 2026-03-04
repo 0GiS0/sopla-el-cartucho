@@ -96,6 +96,28 @@
     <Content Include="Content\css\retro.css" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\site.js" />
+    <Content Include="Content\images\consolas\nes.png" />
+    <Content Include="Content\images\consolas\snes.png" />
+    <Content Include="Content\images\consolas\megadrive.png" />
+    <Content Include="Content\images\consolas\ps1.png" />
+    <Content Include="Content\images\consolas\n64.png" />
+    <Content Include="Content\images\consolas\gameboy.png" />
+    <Content Include="Content\images\juegos\smb3.png" />
+    <Content Include="Content\images\juegos\megaman2.png" />
+    <Content Include="Content\images\juegos\castlevania.png" />
+    <Content Include="Content\images\juegos\zelda-alttp.png" />
+    <Content Include="Content\images\juegos\supermetroid.png" />
+    <Content Include="Content\images\juegos\chronotrigger.png" />
+    <Content Include="Content\images\juegos\sonic2.png" />
+    <Content Include="Content\images\juegos\sor2.png" />
+    <Content Include="Content\images\juegos\ff7.png" />
+    <Content Include="Content\images\juegos\mgs.png" />
+    <Content Include="Content\images\juegos\re2.png" />
+    <Content Include="Content\images\juegos\goldeneye.png" />
+    <Content Include="Content\images\juegos\sm64.png" />
+    <Content Include="Content\images\juegos\zelda-oot.png" />
+    <Content Include="Content\images\juegos\pokemon-red.png" />
+    <Content Include="Content\images\juegos\tetris-gb.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SoplaElCartucho.Data\SoplaElCartucho.Data.csproj">
