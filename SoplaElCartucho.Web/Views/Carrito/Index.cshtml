@@ -1,0 +1,170 @@
+@model System.Collections.Generic.List<SoplaElCartucho.Web.Models.CarritoItem>
+@{
+    ViewBag.Title = "Mi Carrito";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* 
+    🎮 SOPLA EL CARTUCHO - Carrito de Compras Legacy
+    
+    ⚠️ ANTI-PATRONES:
+    1. Tabla HTML para layout
+    2. Formularios múltiples (uno por item)
+    3. Sin actualización AJAX
+    4. Cálculos en ViewBag
+*@
+
+<div class="carrito-container">
+    <h2 style="color: #00ff00; border-bottom: 3px solid #00ff00; padding-bottom: 10px;">
+        🛒 MI CARRITO
+    </h2>
+    
+    @if (Model != null && Model.Count > 0)
+    {
+        <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+            <thead>
+                <tr style="background-color: #1a1a1a; border-bottom: 2px solid #333;">
+                    <th style="padding: 15px; text-align: left; color: #00ffff; font-size: 10px;">JUEGO</th>
+                    <th style="padding: 15px; text-align: center; color: #00ffff; font-size: 10px;">PRECIO</th>
+                    <th style="padding: 15px; text-align: center; color: #00ffff; font-size: 10px;">CANTIDAD</th>
+                    <th style="padding: 15px; text-align: right; color: #00ffff; font-size: 10px;">SUBTOTAL</th>
+                    <th style="padding: 15px; text-align: center; color: #00ffff; font-size: 10px;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr style="border-bottom: 1px solid #333;">
+                        <td style="padding: 20px;">
+                            <table>
+                                <tr>
+                                    <td style="width: 60px;">
+                                        <div style="width: 50px; height: 50px; background-color: #222; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                                            🎮
+                                        </div>
+                                    </td>
+                                    <td style="padding-left: 15px;">
+                                        <h4 style="color: #fff; font-size: 10px; margin: 0;">@item.Titulo</h4>
+                                        <p style="color: #666; font-size: 8px; margin: 5px 0 0 0;">@item.NombreConsola</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="padding: 20px; text-align: center; color: #ccc; font-size: 10px;">
+                            @item.PrecioUnitario.ToString("C")
+                        </td>
+                        <td style="padding: 20px; text-align: center;">
+                            @* ⚠️ LEGACY: Formulario individual por item *@
+                            @using (Html.BeginForm("Actualizar", "Carrito", FormMethod.Post, new { style = "display: inline;" }))
+                            {
+                                <input type="hidden" name="juegoId" value="@item.JuegoId" />
+                                <select name="cantidad" onchange="this.form.submit()" style="padding: 5px; font-family: 'Press Start 2P'; font-size: 8px; background-color: #222; color: #fff; border: 2px solid #333;">
+                                    @for (int i = 1; i <= 3; i++)
+                                    {
+                                        var selected = i == item.Cantidad ? "selected" : "";
+                                        <option value="@i" @selected>@i</option>
+                                    }
+                                </select>
+                            }
+                        </td>
+                        <td style="padding: 20px; text-align: right; color: #00ff00; font-size: 12px;">
+                            @item.Subtotal.ToString("C")
+                        </td>
+                        <td style="padding: 20px; text-align: center;">
+                            @using (Html.BeginForm("Eliminar", "Carrito", FormMethod.Post, new { style = "display: inline;" }))
+                            {
+                                <input type="hidden" name="juegoId" value="@item.JuegoId" />
+                                <button type="submit" style="background: none; border: none; color: #ff0000; cursor: pointer; font-size: 14px;" title="Eliminar">
+                                    ✕
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        
+        @* Resumen del pedido *@
+        <table style="width: 100%; margin-top: 30px;">
+            <tr>
+                <td style="width: 60%;"></td>
+                <td style="background-color: #111; border: 2px solid #333; padding: 20px;">
+                    <h3 style="color: #ff00ff; font-size: 12px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;">
+                        📋 RESUMEN DEL PEDIDO
+                    </h3>
+                    
+                    <table style="width: 100%; font-size: 10px;">
+                        <tr>
+                            <td style="color: #888; padding: 8px 0;">Subtotal:</td>
+                            <td style="text-align: right; color: #fff;">@((ViewBag.Subtotal as decimal?)?.ToString("C") ?? "0,00 €")</td>
+                        </tr>
+                        <tr>
+                            <td style="color: #888; padding: 8px 0;">IVA (21%):</td>
+                            <td style="text-align: right; color: #fff;">@((ViewBag.IVA as decimal?)?.ToString("C") ?? "0,00 €")</td>
+                        </tr>
+                        <tr>
+                            <td style="color: #888; padding: 8px 0;">Gastos de envío:</td>
+                            <td style="text-align: right;">
+                                @if (ViewBag.EnvioGratis == true)
+                                {
+                                    <span style="color: #00ff00;">¡GRATIS! 🎉</span>
+                                }
+                                else
+                                {
+                                    <span style="color: #fff;">@((ViewBag.GastosEnvio as decimal?)?.ToString("C") ?? "4,99 €")</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr style="border-top: 2px solid #333;">
+                            <td style="color: #00ff00; padding: 15px 0; font-size: 12px;">TOTAL:</td>
+                            <td style="text-align: right; color: #00ff00; font-size: 14px;">
+                                @((ViewBag.Total as decimal?)?.ToString("C") ?? "0,00 €")
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    @if (ViewBag.EnvioGratis != true)
+                    {
+                        <p style="font-size: 8px; color: #666; margin-top: 15px; text-align: center;">
+                            💡 ¡Añade @((50 - (decimal)(ViewBag.Subtotal ?? 0m)).ToString("C")) más para envío gratis!
+                        </p>
+                    }
+                    
+                    <div style="margin-top: 20px;">
+                        <a href="@Url.Action("Checkout", "Pedidos")" class="btn btn-primary" style="width: 100%; text-align: center; display: block; padding: 15px;">
+                            ▶ FINALIZAR COMPRA
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        
+        @* Botones adicionales *@
+        <div style="margin-top: 20px; display: flex; justify-content: space-between;">
+            <a href="@Url.Action("Index", "Catalogo")" style="font-size: 10px;">
+                ◀ Seguir comprando
+            </a>
+            
+            @using (Html.BeginForm("Vaciar", "Carrito", FormMethod.Post, new { style = "display: inline;" }))
+            {
+                <button type="submit" class="btn btn-danger" style="font-size: 8px; padding: 8px 15px;" 
+                        onclick="return confirm('¿Seguro que quieres vaciar el carrito?');">
+                    🗑️ VACIAR CARRITO
+                </button>
+            }
+        </div>
+    }
+    else
+    {
+        <div style="text-align: center; padding: 50px; background-color: #111; border: 2px solid #333; margin-top: 30px;">
+            <p style="font-size: 60px;">🛒</p>
+            <h3 style="color: #666; margin: 20px 0;">Tu carrito está vacío</h3>
+            <p style="color: #444; font-size: 10px; margin-bottom: 30px;">
+                ¡Es hora de añadir algunos juegos retro!
+            </p>
+            <a href="@Url.Action("Index", "Catalogo")" class="btn btn-primary">
+                🎮 IR AL CATÁLOGO
+            </a>
+        </div>
+    }
+</div>

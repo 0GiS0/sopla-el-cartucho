@@ -1,0 +1,290 @@
+@* 
+    🎮 SOPLA EL CARTUCHO - Layout Principal Legacy
+    
+    ⚠️ ANTI-PATRONES EN ESTE ARCHIVO:
+    1. CDN jQuery antigua (1.6.4)
+    2. CSS inline y estilos mezclados
+    3. Scripts en el head (bloquean render)
+    4. Sin bundling/minification
+    
+    📝 MIGRACIÓN:
+    - Usar npm/webpack para gestión de assets
+    - Mover scripts al final del body
+    - Implementar bundling con ASP.NET Core
+*@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Sopla el Cartucho 🎮</title>
+    
+    @* ⚠️ LEGACY: Google Fonts inline *@
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    @* ⚠️ LEGACY: CSS sin bundling *@
+    <link href="@Url.Content("~/Content/css/site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/css/retro.css")" rel="stylesheet" type="text/css" />
+    
+    @* ⚠️ ANTI-PATRÓN: jQuery muy antigua en el head *@
+    <script src="@Url.Content("~/Scripts/jquery-1.6.4.min.js")" type="text/javascript"></script>
+    
+    @* ⚠️ LEGACY: Estilos inline críticos *@
+    <style type="text/css">
+        /* Estilos base retro */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-color: #0a0a0a;
+            color: #00ff00;
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+        
+        /* Efecto scanlines CRT */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            z-index: 9999;
+        }
+        
+        a {
+            color: #00ffff;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+        
+        /* Header retro */
+        .header {
+            background: linear-gradient(180deg, #1a0a2e 0%, #0a0a0a 100%);
+            border-bottom: 4px solid #00ff00;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            color: #00ff00;
+            text-shadow: 3px 3px 0px #ff00ff, 6px 6px 0px #00ffff;
+            margin: 0;
+            animation: flicker 3s infinite;
+        }
+        
+        @@keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.95; }
+            51% { opacity: 0.85; }
+            52% { opacity: 1; }
+        }
+        
+        /* Navegación */
+        .nav {
+            background-color: #1a1a1a;
+            padding: 10px;
+            border-bottom: 2px solid #333;
+        }
+        
+        .nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        
+        .nav li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+        
+        .nav a {
+            color: #ffffff;
+            padding: 5px 15px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .nav a:hover {
+            border-color: #00ff00;
+            background-color: #002200;
+        }
+        
+        /* Carrito badge */
+        .carrito-badge {
+            background-color: #ff0000;
+            color: #ffffff;
+            padding: 2px 8px;
+            font-size: 10px;
+            border-radius: 0;
+            margin-left: 5px;
+        }
+        
+        /* Container principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Footer retro */
+        .footer {
+            background-color: #0a0a0a;
+            border-top: 4px solid #00ff00;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .footer p {
+            font-size: 10px;
+            color: #666;
+        }
+        
+        /* Mensajes de alerta */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid;
+        }
+        
+        .alert-success {
+            background-color: #002200;
+            border-color: #00ff00;
+            color: #00ff00;
+        }
+        
+        .alert-error {
+            background-color: #220000;
+            border-color: #ff0000;
+            color: #ff0000;
+        }
+        
+        /* Botones retro */
+        .btn {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            padding: 10px 20px;
+            border: 3px solid;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+        
+        .btn-primary {
+            background-color: #00ff00;
+            border-color: #00ff00;
+            color: #000000;
+        }
+        
+        .btn-primary:hover {
+            background-color: #00cc00;
+            box-shadow: 0 0 20px #00ff00;
+        }
+        
+        .btn-danger {
+            background-color: #ff0000;
+            border-color: #ff0000;
+            color: #ffffff;
+        }
+        
+        .btn-danger:hover {
+            background-color: #cc0000;
+            box-shadow: 0 0 20px #ff0000;
+        }
+    </style>
+</head>
+<body>
+    @* ⚠️ LEGACY: Header con logo y navegación *@
+    <header class="header">
+        <h1>🎮 SOPLA EL CARTUCHO 💨</h1>
+        <p style="font-size: 8px; color: #888; margin-top: 10px;">Tu tienda de videojuegos retro favorita</p>
+    </header>
+    
+    @* ⚠️ ANTI-PATRÓN: Navegación con lógica inline *@
+    <nav class="nav">
+        <ul>
+            <li><a href="@Url.Action("Index", "Home")">🏠 INICIO</a></li>
+            <li><a href="@Url.Action("Index", "Catalogo")">🎮 CATÁLOGO</a></li>
+            <li>
+                <a href="@Url.Action("Index", "Carrito")">
+                    🛒 CARRITO
+                    @if (Session["CarritoCount"] != null && (int)Session["CarritoCount"] > 0)
+                    {
+                        <span class="carrito-badge">@Session["CarritoCount"]</span>
+                    }
+                </a>
+            </li>
+            @if (Request.IsAuthenticated)
+            {
+                <li><a href="@Url.Action("Index", "Pedidos")">📦 MIS PEDIDOS</a></li>
+                <li><a href="@Url.Action("Profile", "Account")">👤 @User.Identity.Name</a></li>
+                <li>
+                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", style = "display:inline;" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <a href="javascript:document.getElementById('logoutForm').submit()">🚪 SALIR</a>
+                    }
+                </li>
+            }
+            else
+            {
+                <li><a href="@Url.Action("Login", "Account")">🔑 ENTRAR</a></li>
+                <li><a href="@Url.Action("Register", "Account")">📝 REGISTRO</a></li>
+            }
+        </ul>
+    </nav>
+    
+    <div class="container">
+        @* ⚠️ LEGACY: Mensajes con TempData *@
+        @if (TempData["Exito"] != null)
+        {
+            <div class="alert alert-success">
+                ✅ @TempData["Exito"]
+            </div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-error">
+                ❌ @TempData["Error"]
+            </div>
+        }
+        
+        @RenderBody()
+    </div>
+    
+    <footer class="footer">
+        <p>🎮 SOPLA EL CARTUCHO © @DateTime.Now.Year</p>
+        <p style="margin-top: 10px;">
+            <a href="@Url.Action("About", "Home")">SOBRE NOSOTROS</a> | 
+            <a href="@Url.Action("Contact", "Home")">CONTACTO</a>
+        </p>
+        <p style="font-size: 8px; margin-top: 15px; color: #444;">
+            ⚠️ Aplicación Legacy .NET Framework 3.5 - Solo para demostración
+        </p>
+    </footer>
+    
+    @* ⚠️ LEGACY: Scripts al final (pero deberían usar defer/async) *@
+    <script src="@Url.Content("~/Scripts/site.js")" type="text/javascript"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

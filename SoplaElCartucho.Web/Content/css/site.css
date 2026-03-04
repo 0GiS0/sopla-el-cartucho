@@ -1,0 +1,238 @@
+/*
+ * 🎮 SOPLA EL CARTUCHO - Estilos CSS Legacy
+ * 
+ * ⚠️ ANTI-PATRONES EN ESTE ARCHIVO:
+ * 1. Sin preprocesador (SASS/LESS)
+ * 2. Sin variables CSS (usar custom properties)
+ * 3. Sin metodología (BEM, SMACSS)
+ * 4. Selectores muy específicos
+ * 5. Sin minificación
+ * 
+ * 📝 MIGRACIÓN:
+ * - Usar SASS o Tailwind CSS
+ * - Implementar CSS custom properties
+ * - Seguir metodología BEM
+ * - Añadir build step con minificación
+ */
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    background-color: #0a0a0a;
+    color: #00ff00;
+    min-height: 100vh;
+}
+
+/* Links */
+a {
+    color: #00ffff;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    color: #ff00ff;
+    text-shadow: 0 0 10px #ff00ff;
+}
+
+/* Inputs y formularios */
+input, select, textarea {
+    font-family: 'Press Start 2P', monospace;
+    background-color: #1a1a1a;
+    border: 2px solid #333;
+    color: #00ff00;
+    padding: 10px;
+    transition: border-color 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+/* Botones */
+.btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    padding: 12px 24px;
+    border: 3px solid;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background-color: #00ff00;
+    border-color: #00ff00;
+    color: #000;
+}
+
+.btn-primary:hover {
+    background-color: #00cc00;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border-color: #00ffff;
+    color: #00ffff;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(0, 255, 255, 0.1);
+}
+
+.btn-danger {
+    background-color: #ff0000;
+    border-color: #ff0000;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #cc0000;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+}
+
+/* Alertas */
+.alert {
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border: 2px solid;
+    font-size: 10px;
+}
+
+.alert-success {
+    background-color: rgba(0, 255, 0, 0.1);
+    border-color: #00ff00;
+    color: #00ff00;
+}
+
+.alert-error, .alert-danger {
+    background-color: rgba(255, 0, 0, 0.1);
+    border-color: #ff0000;
+    color: #ff0000;
+}
+
+.alert-warning {
+    background-color: rgba(255, 255, 0, 0.1);
+    border-color: #ffff00;
+    color: #ffff00;
+}
+
+.alert-info {
+    background-color: rgba(0, 255, 255, 0.1);
+    border-color: #00ffff;
+    color: #00ffff;
+}
+
+/* Cards / Panels */
+.panel {
+    background-color: #111;
+    border: 2px solid #333;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.panel-header {
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.panel-title {
+    color: #ff00ff;
+    font-size: 12px;
+}
+
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #1a1a1a;
+    color: #00ffff;
+    font-size: 10px;
+    border-bottom: 2px solid #333;
+}
+
+tr:hover {
+    background-color: rgba(0, 255, 0, 0.05);
+}
+
+/* Utilidades */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-success { color: #00ff00; }
+.text-danger { color: #ff0000; }
+.text-warning { color: #ffff00; }
+.text-muted { color: #666; }
+
+.mt-1 { margin-top: 10px; }
+.mt-2 { margin-top: 20px; }
+.mt-3 { margin-top: 30px; }
+.mb-1 { margin-bottom: 10px; }
+.mb-2 { margin-bottom: 20px; }
+.mb-3 { margin-bottom: 30px; }
+
+/* Animaciones */
+@keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.blink {
+    animation: blink 1s infinite;
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Responsive básico */
+@media (max-width: 768px) {
+    body {
+        font-size: 8px;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+    
+    .btn {
+        padding: 10px 15px;
+        font-size: 8px;
+    }
+}

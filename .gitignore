@@ -1,0 +1,29 @@
+## .NET Framework / Visual Studio
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## NuGet
+packages/
+*.nupkg
+nuget.exe
+
+## Build results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.log
+
+## Temporary files
+*.tmp
+*.bak
+*.swp
+~$*
+
+## Playwright MCP
+.playwright-mcp/

@@ -1,0 +1,135 @@
+@model SoplaElCartucho.Web.Models.Pedido
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="checkout-container">
+    <h2 style="color: #00ff00; border-bottom: 3px solid #00ff00; padding-bottom: 10px;">
+        💳 FINALIZAR COMPRA
+    </h2>
+    
+    @using (Html.BeginForm("ConfirmarPedido", "Pedidos", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        
+        <table style="width: 100%; margin-top: 20px;">
+            <tr>
+                @* Formulario de envío *@
+                <td style="width: 60%; vertical-align: top; padding-right: 30px;">
+                    <div style="background-color: #111; border: 2px solid #333; padding: 20px;">
+                        <h3 style="color: #ff00ff; font-size: 12px; margin-bottom: 20px;">📦 DATOS DE ENVÍO</h3>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <label style="color: #666; font-size: 10px; display: block; margin-bottom: 5px;">Dirección *</label>
+                            <input type="text" name="direccion" required 
+                                   style="width: 100%; padding: 10px; font-family: 'Press Start 2P'; font-size: 10px; background-color: #222; color: #fff; border: 2px solid #333;" 
+                                   placeholder="Calle Pixel 8, Portal 2, 1ºA" />
+                        </div>
+                        
+                        <div style="margin-bottom: 15px; display: flex; gap: 15px;">
+                            <div style="flex: 2;">
+                                <label style="color: #666; font-size: 10px; display: block; margin-bottom: 5px;">Ciudad *</label>
+                                <input type="text" name="ciudad" required 
+                                       style="width: 100%; padding: 10px; font-family: 'Press Start 2P'; font-size: 10px; background-color: #222; color: #fff; border: 2px solid #333;" 
+                                       placeholder="Bit City" />
+                            </div>
+                            <div style="flex: 1;">
+                                <label style="color: #666; font-size: 10px; display: block; margin-bottom: 5px;">C.P. *</label>
+                                <input type="text" name="codigoPostal" required 
+                                       style="width: 100%; padding: 10px; font-family: 'Press Start 2P'; font-size: 10px; background-color: #222; color: #fff; border: 2px solid #333;" 
+                                       placeholder="28080" />
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <label style="color: #666; font-size: 10px; display: block; margin-bottom: 5px;">Teléfono de contacto</label>
+                            <input type="tel" name="telefono" 
+                                   style="width: 100%; padding: 10px; font-family: 'Press Start 2P'; font-size: 10px; background-color: #222; color: #fff; border: 2px solid #333;" 
+                                   placeholder="666 123 456" />
+                        </div>
+                        
+                        <div style="margin-bottom: 15px;">
+                            <label style="color: #666; font-size: 10px; display: block; margin-bottom: 5px;">Comentarios</label>
+                            <textarea name="comentarios" rows="3"
+                                      style="width: 100%; padding: 10px; font-family: 'Press Start 2P'; font-size: 10px; background-color: #222; color: #fff; border: 2px solid #333; resize: vertical;" 
+                                      placeholder="Instrucciones especiales de entrega..."></textarea>
+                        </div>
+                    </div>
+                    
+                    @* Método de pago (simulado) *@
+                    <div style="background-color: #111; border: 2px solid #333; padding: 20px; margin-top: 20px;">
+                        <h3 style="color: #ff00ff; font-size: 12px; margin-bottom: 20px;">💳 MÉTODO DE PAGO</h3>
+                        
+                        <p style="color: #666; font-size: 10px; margin-bottom: 15px;">
+                            ⚠️ Demo: El pago se simula. En producción integraríamos Stripe/PayPal.
+                        </p>
+                        
+                        <div style="padding: 15px; background-color: #001100; border: 2px solid #00ff00;">
+                            <label style="color: #00ff00; font-size: 10px; cursor: pointer;">
+                                <input type="radio" name="metodoPago" value="demo" checked style="margin-right: 10px;" />
+                                💰 Pago Simulado (Demo)
+                            </label>
+                        </div>
+                    </div>
+                </td>
+                
+                @* Resumen del pedido *@
+                <td style="width: 40%; vertical-align: top;">
+                    <div style="background-color: #111; border: 2px solid #333; padding: 20px; position: sticky; top: 20px;">
+                        <h3 style="color: #ff00ff; font-size: 12px; margin-bottom: 20px;">📋 TU PEDIDO</h3>
+                        
+                        @if (Model.Detalles != null)
+                        {
+                            foreach (var item in Model.Detalles)
+                            {
+                                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #333;">
+                                    <div>
+                                        <p style="color: #fff; font-size: 9px;">@item.TituloJuego</p>
+                                        <p style="color: #666; font-size: 8px;">x@item.Cantidad</p>
+                                    </div>
+                                    <p style="color: #00ff00; font-size: 10px;">@item.Subtotal.ToString("C")</p>
+                                </div>
+                            }
+                        }
+                        
+                        <table style="width: 100%; margin-top: 20px; font-size: 10px;">
+                            <tr>
+                                <td style="color: #888; padding: 5px 0;">Subtotal:</td>
+                                <td style="text-align: right; color: #fff;">@Model.Subtotal.ToString("C")</td>
+                            </tr>
+                            <tr>
+                                <td style="color: #888; padding: 5px 0;">IVA (21%):</td>
+                                <td style="text-align: right; color: #fff;">@Model.IVA.ToString("C")</td>
+                            </tr>
+                            <tr>
+                                <td style="color: #888; padding: 5px 0;">Envío:</td>
+                                <td style="text-align: right; color: @(Model.GastosEnvio == 0 ? "#00ff00" : "#fff");">
+                                    @(Model.GastosEnvio == 0 ? "¡GRATIS!" : Model.GastosEnvio.ToString("C"))
+                                </td>
+                            </tr>
+                            <tr style="border-top: 2px solid #00ff00;">
+                                <td style="color: #00ff00; padding: 15px 0; font-size: 12px;">TOTAL:</td>
+                                <td style="text-align: right; color: #00ff00; font-size: 14px;">@Model.Total.ToString("C")</td>
+                            </tr>
+                        </table>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; margin-top: 20px; font-size: 10px;">
+                            ✓ CONFIRMAR PEDIDO
+                        </button>
+                        
+                        <p style="font-size: 8px; color: #444; text-align: center; margin-top: 15px;">
+                            🔒 Pago 100% seguro (simulado)
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    }
+    
+    <div style="margin-top: 20px;">
+        <a href="@Url.Action("Index", "Carrito")" style="font-size: 10px;">
+            ◀ Volver al carrito
+        </a>
+    </div>
+</div>

@@ -1,0 +1,199 @@
+@model SoplaElCartucho.Web.Models.Juego
+@{
+    ViewBag.Title = Model.Titulo;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var consola = ViewBag.Consola as SoplaElCartucho.Web.Models.Consola;
+}
+
+@* 
+    🎮 SOPLA EL CARTUCHO - Detalle de Juego Legacy
+    
+    ⚠️ ANTI-PATRONES EN ESTE ARCHIVO:
+    1. Formulario POST sin ajax (recarga toda la página)
+    2. Estilos inline mezclados
+    3. ViewBag para datos relacionados
+    
+    📝 MIGRACIÓN:
+    - Usar AJAX para añadir al carrito
+    - Crear DetalleJuegoViewModel con todo incluido
+    - Extraer estilos a CSS
+*@
+
+<div class="detalle-juego">
+    @* Breadcrumb básico *@
+    <p style="font-size: 8px; color: #666; margin-bottom: 20px;">
+        <a href="@Url.Action("Index", "Home")">Inicio</a> → 
+        <a href="@Url.Action("Index", "Catalogo")">Catálogo</a> → 
+        @if (consola != null)
+        {
+            <a href="@Url.Action("Index", "Catalogo", new { consolaId = consola.Id })">@consola.Nombre</a>
+            <text> → </text>
+        }
+        @Model.Titulo
+    </p>
+    
+    <table style="width: 100%; background-color: #111; border: 2px solid #333;">
+        <tr>
+            @* Imagen del juego *@
+            <td style="width: 40%; padding: 30px; text-align: center; vertical-align: top;">
+                <div style="width: 250px; height: 250px; background-color: #222; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 80px; border: 4px solid #333;">
+                    🎮
+                </div>
+                
+                @if (Model.Destacado)
+                {
+                    <div style="margin-top: 20px;">
+                        <span style="background-color: #ff00ff; color: #000; font-size: 10px; padding: 5px 15px;">
+                            ⭐ JUEGO DESTACADO
+                        </span>
+                    </div>
+                }
+            </td>
+            
+            @* Información del juego *@
+            <td style="padding: 30px; vertical-align: top;">
+                <h1 style="color: #00ff00; font-size: 18px; margin: 0 0 20px 0; text-shadow: 2px 2px 0 #003300;">
+                    @Model.Titulo
+                </h1>
+                
+                @if (consola != null)
+                {
+                    <p style="margin-bottom: 15px;">
+                        <span style="color: #666;">Consola:</span> 
+                        <span style="color: #00ffff;">@consola.Nombre</span>
+                    </p>
+                }
+                
+                <table style="font-size: 10px; margin-bottom: 20px;">
+                    <tr>
+                        <td style="color: #666; padding: 5px 20px 5px 0;">Género:</td>
+                        <td style="color: #fff;">@Model.Genero</td>
+                    </tr>
+                    <tr>
+                        <td style="color: #666; padding: 5px 20px 5px 0;">Año:</td>
+                        <td style="color: #fff;">@Model.AnioLanzamiento</td>
+                    </tr>
+                    <tr>
+                        <td style="color: #666; padding: 5px 20px 5px 0;">Desarrollador:</td>
+                        <td style="color: #fff;">@Model.Desarrollador</td>
+                    </tr>
+                    <tr>
+                        <td style="color: #666; padding: 5px 20px 5px 0;">Estado:</td>
+                        <td>
+                            @switch (Model.Estado)
+                            {
+                                case "Nuevo":
+                                    <span style="color: #00ff00;">✨ Nuevo</span>
+                                    break;
+                                case "BuenEstado":
+                                    <span style="color: #00ffff;">👍 Buen Estado</span>
+                                    break;
+                                case "Usado":
+                                    <span style="color: #ffff00;">📦 Usado</span>
+                                    break;
+                                default:
+                                    <span style="color: #888;">@Model.Estado</span>
+                                    break;
+                            }
+                        </td>
+                    </tr>
+                </table>
+                
+                @* Precio *@
+                <div style="background-color: #001100; border: 2px solid #00ff00; padding: 20px; margin: 20px 0;">
+                    <span style="font-size: 24px; color: #00ff00;">
+                        @Model.Precio.ToString("C")
+                    </span>
+                    <span style="font-size: 10px; color: #666; margin-left: 10px;">
+                        (IVA incluido: @Model.PrecioConIVA.ToString("C"))
+                    </span>
+                </div>
+                
+                @* Stock y botón de compra *@
+                @if (Model.Stock > 0)
+                {
+                    <p style="color: #00ff00; font-size: 10px; margin-bottom: 15px;">
+                        ✓ @Model.Stock unidades disponibles
+                    </p>
+                    
+                    @* ⚠️ LEGACY: Formulario POST tradicional *@
+                    @using (Html.BeginForm("Agregar", "Carrito", FormMethod.Post))
+                    {
+                        <input type="hidden" name="juegoId" value="@Model.Id" />
+                        
+                        <div style="margin-bottom: 15px;">
+                            <label style="color: #666; font-size: 10px;">Cantidad:</label>
+                            <select name="cantidad" style="padding: 8px; font-family: 'Press Start 2P'; font-size: 10px; background-color: #222; color: #fff; border: 2px solid #333; margin-left: 10px;">
+                                @for (int i = 1; i <= Math.Min(3, Model.Stock); i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="font-size: 12px; padding: 15px 30px;">
+                            🛒 AÑADIR AL CARRITO
+                        </button>
+                    }
+                }
+                else
+                {
+                    <p style="color: #ff0000; font-size: 12px; margin-bottom: 15px;">
+                        ✗ AGOTADO
+                    </p>
+                    <button class="btn" style="background-color: #333; border-color: #333; color: #666; cursor: not-allowed;" disabled>
+                        NO DISPONIBLE
+                    </button>
+                }
+            </td>
+        </tr>
+    </table>
+    
+    @* Descripción *@
+    @if (!string.IsNullOrEmpty(Model.Descripcion))
+    {
+        <div style="background-color: #111; border: 2px solid #333; padding: 20px; margin-top: 20px;">
+            <h3 style="color: #ff00ff; font-size: 12px; margin-bottom: 15px;">📝 DESCRIPCIÓN</h3>
+            <p style="color: #ccc; font-size: 10px; line-height: 2;">
+                @Model.Descripcion
+            </p>
+        </div>
+    }
+    
+    @* Juegos relacionados *@
+    @{
+        var relacionados = ViewBag.JuegosRelacionados as System.Collections.Generic.List<SoplaElCartucho.Web.Models.Juego>;
+    }
+    @if (relacionados != null && relacionados.Count > 0)
+    {
+        <div style="margin-top: 30px;">
+            <h3 style="color: #00ffff; font-size: 12px; border-bottom: 2px solid #00ffff; padding-bottom: 10px; margin-bottom: 20px;">
+                🎮 TAMBIÉN TE PUEDE INTERESAR
+            </h3>
+            
+            <table style="width: 100%; border-collapse: separate; border-spacing: 10px;">
+                <tr>
+                    @foreach (var relacionado in relacionados)
+                    {
+                        <td style="background-color: #111; border: 2px solid #333; padding: 15px; text-align: center; width: 25%;">
+                            <div style="width: 80px; height: 80px; background-color: #222; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 30px;">
+                                🎮
+                            </div>
+                            <h4 style="color: #fff; font-size: 8px; margin: 10px 0; min-height: 30px;">@relacionado.Titulo</h4>
+                            <p style="color: #00ff00; font-size: 10px;">@relacionado.Precio.ToString("C")</p>
+                            <a href="@Url.Action("Detalle", new { id = relacionado.Id, slug = relacionado.ObtenerSlug() })" 
+                               style="font-size: 8px; color: #00ffff;">Ver más →</a>
+                        </td>
+                    }
+                </tr>
+            </table>
+        </div>
+    }
+    
+    @* Botón volver *@
+    <div style="margin-top: 30px;">
+        <a href="@Url.Action("Index", "Catalogo")" style="font-size: 10px;">
+            ◀ Volver al catálogo
+        </a>
+    </div>
+</div>

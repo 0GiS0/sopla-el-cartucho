@@ -1,0 +1,233 @@
+@model System.Collections.Generic.List<SoplaElCartucho.Web.Models.Juego>
+@{
+    ViewBag.Title = "Catálogo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* 
+    🎮 SOPLA EL CARTUCHO - Catálogo de Juegos Legacy
+    
+    ⚠️ ANTI-PATRONES EN ESTE ARCHIVO:
+    1. Modelo tipado pero complementado con muchos ViewBag
+    2. Paginación manual sin componente reutilizable
+    3. Filtros con querystring (debería usar formulario)
+    4. Mezcla de lógica y presentación
+    
+    📝 MIGRACIÓN:
+    - Crear CatalogoViewModel con todas las propiedades
+    - Extraer componente de paginación
+    - Usar Tag Helpers para formularios
+    - Separar filtros en partial view
+*@
+
+<div class="catalogo-container">
+    <h2 style="color: #00ff00; border-bottom: 3px solid #00ff00; padding-bottom: 10px;">
+        🎮 CATÁLOGO DE JUEGOS
+        @if (ViewBag.ConsolaActual != null)
+        {
+            var consolaActual = ViewBag.ConsolaActual as SoplaElCartucho.Web.Models.Consola;
+            <span style="color: #ff00ff;"> - @consolaActual.Nombre</span>
+        }
+    </h2>
+    
+    @* ⚠️ LEGACY: Filtros con tabla HTML *@
+    <div class="filtros" style="background-color: #111; border: 2px solid #333; padding: 20px; margin: 20px 0;">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 33%; padding: 10px;">
+                    <label style="color: #00ffff; font-size: 10px;">CONSOLA:</label><br/>
+                    <select id="filtroConsola" onchange="aplicarFiltros()" style="width: 100%; padding: 8px; margin-top: 5px; font-family: 'Press Start 2P'; font-size: 8px; background-color: #222; color: #fff; border: 2px solid #333;">
+                        <option value="">-- Todas --</option>
+                        @{
+                            var consolas = ViewBag.Consolas as System.Collections.Generic.List<SoplaElCartucho.Web.Models.Consola>;
+                        }
+                        @if (consolas != null)
+                        {
+                            foreach (var consola in consolas)
+                            {
+                                var selected = ViewBag.ConsolaId != null && (int)ViewBag.ConsolaId == consola.Id ? "selected" : "";
+                                <option value="@consola.Id" @selected>@consola.Nombre</option>
+                            }
+                        }
+                    </select>
+                </td>
+                <td style="width: 33%; padding: 10px;">
+                    <label style="color: #00ffff; font-size: 10px;">GÉNERO:</label><br/>
+                    <select id="filtroGenero" onchange="aplicarFiltros()" style="width: 100%; padding: 8px; margin-top: 5px; font-family: 'Press Start 2P'; font-size: 8px; background-color: #222; color: #fff; border: 2px solid #333;">
+                        <option value="">-- Todos --</option>
+                        @{
+                            var generos = ViewBag.Generos as System.Collections.Generic.List<string>;
+                        }
+                        @if (generos != null)
+                        {
+                            foreach (var genero in generos)
+                            {
+                                var selected = ViewBag.GeneroActual != null && ViewBag.GeneroActual.ToString() == genero ? "selected" : "";
+                                <option value="@genero" @selected>@genero</option>
+                            }
+                        }
+                    </select>
+                </td>
+                <td style="width: 33%; padding: 10px;">
+                    <label style="color: #00ffff; font-size: 10px;">ORDENAR:</label><br/>
+                    <select id="filtroOrden" onchange="aplicarFiltros()" style="width: 100%; padding: 8px; margin-top: 5px; font-family: 'Press Start 2P'; font-size: 8px; background-color: #222; color: #fff; border: 2px solid #333;">
+                        <option value="" @(ViewBag.OrdenActual == null ? "selected" : "")>Destacados</option>
+                        <option value="precio-asc" @(ViewBag.OrdenActual != null && ViewBag.OrdenActual.ToString() == "precio-asc" ? "selected" : "")>Precio ↑</option>
+                        <option value="precio-desc" @(ViewBag.OrdenActual != null && ViewBag.OrdenActual.ToString() == "precio-desc" ? "selected" : "")>Precio ↓</option>
+                        <option value="nombre" @(ViewBag.OrdenActual != null && ViewBag.OrdenActual.ToString() == "nombre" ? "selected" : "")>Nombre A-Z</option>
+                        <option value="anio" @(ViewBag.OrdenActual != null && ViewBag.OrdenActual.ToString() == "anio" ? "selected" : "")>Más reciente</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+    @* ⚠️ LEGACY: Contador de resultados *@
+    <p style="color: #666; font-size: 10px; margin-bottom: 20px;">
+        Mostrando @Model.Count de @ViewBag.TotalJuegos juegos
+    </p>
+    
+    @* ⚠️ ANTI-PATRÓN: Grid de juegos con tabla HTML *@
+    @if (Model != null && Model.Count > 0)
+    {
+        <table style="width: 100%; border-collapse: separate; border-spacing: 15px;">
+            @{
+                int itemCount = 0;
+            }
+            <tr>
+            @foreach (var juego in Model)
+            {
+                <td style="background-color: #111; border: 2px solid #333; padding: 20px; text-align: center; width: 25%; vertical-align: top;">
+                    @if (juego.Destacado)
+                    {
+                        <div style="background-color: #ff00ff; color: #000; font-size: 8px; padding: 3px 8px; display: inline-block; margin-bottom: 10px;">
+                            ⭐ DESTACADO
+                        </div>
+                    }
+                    
+                    @* ⚠️ LEGACY: Placeholder de imagen *@
+                    <div style="width: 120px; height: 120px; background-color: #222; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 40px; border: 2px solid #333;">
+                        🎮
+                    </div>
+                    
+                    <h4 style="color: #ffffff; margin: 15px 0 5px; font-size: 10px; min-height: 40px;">
+                        @juego.Titulo
+                    </h4>
+                    
+                    <p style="font-size: 8px; color: #666;">@juego.Genero</p>
+                    <p style="font-size: 8px; color: #888;">@juego.AnioLanzamiento</p>
+                    
+                    <p style="font-size: 14px; color: #00ff00; margin: 15px 0;">
+                        @juego.Precio.ToString("C")
+                    </p>
+                    
+                    @if (juego.Stock > 0)
+                    {
+                        <p style="font-size: 8px; color: #00ff00;">✓ @juego.Stock en stock</p>
+                    }
+                    else
+                    {
+                        <p style="font-size: 8px; color: #ff0000;">✗ Agotado</p>
+                    }
+                    
+                    <div style="margin-top: 15px;">
+                        <a href="@Url.Action("Detalle", "Catalogo", new { id = juego.Id, slug = juego.ObtenerSlug() })" 
+                           class="btn btn-primary" style="font-size: 8px; padding: 8px 12px; display: inline-block;">
+                            VER MÁS
+                        </a>
+                    </div>
+                </td>
+                
+                itemCount++;
+                if (itemCount % 4 == 0 && itemCount < Model.Count)
+                {
+                    @:</tr><tr>
+                }
+            }
+            @* ⚠️ LEGACY: Rellenar celdas vacías *@
+            @while (itemCount % 4 != 0)
+            {
+                <td style="width: 25%;"></td>
+                itemCount++;
+            }
+            </tr>
+        </table>
+    }
+    else
+    {
+        <div style="text-align: center; padding: 50px; background-color: #111; border: 2px solid #333;">
+            <p style="font-size: 40px;">🎮</p>
+            <p style="color: #666; margin-top: 20px;">No se encontraron juegos con estos filtros.</p>
+            <a href="@Url.Action("Index")" class="btn btn-primary" style="margin-top: 20px;">
+                VER TODOS LOS JUEGOS
+            </a>
+        </div>
+    }
+    
+    @* ⚠️ LEGACY: Paginación manual con lógica en vista *@
+    @if ((int)ViewBag.TotalPaginas > 1)
+    {
+        <div class="paginacion" style="text-align: center; margin-top: 30px;">
+            @{
+                int paginaActual = (int)ViewBag.PaginaActual;
+                int totalPaginas = (int)ViewBag.TotalPaginas;
+            }
+            
+            @if (paginaActual > 1)
+            {
+                <a href="@Url.Action("Index", new { consolaId = ViewBag.ConsolaId, genero = ViewBag.GeneroActual, orden = ViewBag.OrdenActual, pagina = paginaActual - 1 })" 
+                   style="padding: 10px 15px; border: 2px solid #333; margin: 0 5px; display: inline-block;">
+                    ◀ ANTERIOR
+                </a>
+            }
+            
+            @for (int i = 1; i <= totalPaginas; i++)
+            {
+                var estilo = i == paginaActual 
+                    ? "background-color: #00ff00; color: #000; border-color: #00ff00;" 
+                    : "border-color: #333;";
+                <a href="@Url.Action("Index", new { consolaId = ViewBag.ConsolaId, genero = ViewBag.GeneroActual, orden = ViewBag.OrdenActual, pagina = i })" 
+                   style="padding: 10px 15px; border: 2px solid; margin: 0 3px; display: inline-block; @estilo">
+                    @i
+                </a>
+            }
+            
+            @if (paginaActual < totalPaginas)
+            {
+                <a href="@Url.Action("Index", new { consolaId = ViewBag.ConsolaId, genero = ViewBag.GeneroActual, orden = ViewBag.OrdenActual, pagina = paginaActual + 1 })" 
+                   style="padding: 10px 15px; border: 2px solid #333; margin: 0 5px; display: inline-block;">
+                    SIGUIENTE ▶
+                </a>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        // ⚠️ LEGACY: JavaScript con función global
+        function aplicarFiltros() {
+            var consolaId = document.getElementById('filtroConsola').value;
+            var genero = document.getElementById('filtroGenero').value;
+            var orden = document.getElementById('filtroOrden').value;
+            
+            // ⚠️ ANTI-PATRÓN: Construcción manual de URL
+            var url = '@Url.Action("Index")';
+            var params = [];
+            
+            if (consolaId) params.push('consolaId=' + consolaId);
+            if (genero) params.push('genero=' + encodeURIComponent(genero));
+            if (orden) params.push('orden=' + orden);
+            
+            if (params.length > 0) {
+                url += '?' + params.join('&');
+            }
+            
+            window.location.href = url;
+        }
+        
+        $(document).ready(function() {
+            console.log('🎮 Catálogo cargado - @Model.Count juegos');
+        });
+    </script>
+}

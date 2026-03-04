@@ -1,0 +1,94 @@
+@model System.Collections.Generic.List<SoplaElCartucho.Web.Models.Pedido>
+@{
+    ViewBag.Title = "Mis Pedidos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="pedidos-container">
+    <h2 style="color: #00ff00; border-bottom: 3px solid #00ff00; padding-bottom: 10px;">
+        📦 MIS PEDIDOS
+    </h2>
+    
+    @if (Model != null && Model.Count > 0)
+    {
+        <table style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+            <thead>
+                <tr style="background-color: #1a1a1a; border-bottom: 2px solid #333;">
+                    <th style="padding: 15px; text-align: left; color: #00ffff; font-size: 10px;">Nº PEDIDO</th>
+                    <th style="padding: 15px; text-align: left; color: #00ffff; font-size: 10px;">FECHA</th>
+                    <th style="padding: 15px; text-align: center; color: #00ffff; font-size: 10px;">ESTADO</th>
+                    <th style="padding: 15px; text-align: right; color: #00ffff; font-size: 10px;">TOTAL</th>
+                    <th style="padding: 15px; text-align: center; color: #00ffff; font-size: 10px;">ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pedido in Model)
+                {
+                    <tr style="border-bottom: 1px solid #333;">
+                        <td style="padding: 15px; color: #fff; font-size: 10px;">
+                            #@pedido.Id
+                        </td>
+                        <td style="padding: 15px; color: #888; font-size: 10px;">
+                            @pedido.FechaPedido.ToString("dd/MM/yyyy HH:mm")
+                        </td>
+                        <td style="padding: 15px; text-align: center;">
+                            @switch (pedido.Estado)
+                            {
+                                case "Pendiente":
+                                    <span style="background-color: #444400; color: #ffff00; padding: 3px 10px; font-size: 8px;">⏳ Pendiente</span>
+                                    break;
+                                case "Procesando":
+                                    <span style="background-color: #004444; color: #00ffff; padding: 3px 10px; font-size: 8px;">⚙️ Procesando</span>
+                                    break;
+                                case "Enviado":
+                                    <span style="background-color: #440044; color: #ff00ff; padding: 3px 10px; font-size: 8px;">📦 Enviado</span>
+                                    break;
+                                case "Entregado":
+                                    <span style="background-color: #004400; color: #00ff00; padding: 3px 10px; font-size: 8px;">✓ Entregado</span>
+                                    break;
+                                case "Cancelado":
+                                    <span style="background-color: #440000; color: #ff0000; padding: 3px 10px; font-size: 8px;">✗ Cancelado</span>
+                                    break;
+                                default:
+                                    <span style="background-color: #333; color: #888; padding: 3px 10px; font-size: 8px;">@pedido.Estado</span>
+                                    break;
+                            }
+                        </td>
+                        <td style="padding: 15px; text-align: right; color: #00ff00; font-size: 10px;">
+                            @pedido.Total.ToString("C")
+                        </td>
+                        <td style="padding: 15px; text-align: center;">
+                            <a href="@Url.Action("Detalle", new { id = pedido.Id })" style="font-size: 8px; margin-right: 10px;">
+                                👁️ Ver
+                            </a>
+                            @if (pedido.Estado == "Pendiente" || pedido.Estado == "Procesando")
+                            {
+                                @using (Html.BeginForm("Cancelar", "Pedidos", new { id = pedido.Id }, FormMethod.Post, new { style = "display: inline;" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" style="background: none; border: none; color: #ff0000; font-size: 8px; cursor: pointer; font-family: 'Press Start 2P';"
+                                            onclick="return confirm('¿Cancelar pedido #@pedido.Id?');">
+                                        ❌ Cancelar
+                                    </button>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div style="text-align: center; padding: 50px; background-color: #111; border: 2px solid #333; margin-top: 30px;">
+            <p style="font-size: 60px;">📦</p>
+            <h3 style="color: #666; margin: 20px 0;">No tienes pedidos todavía</h3>
+            <p style="color: #444; font-size: 10px; margin-bottom: 30px;">
+                ¡Haz tu primera compra retro!
+            </p>
+            <a href="@Url.Action("Index", "Catalogo")" class="btn btn-primary">
+                🎮 IR AL CATÁLOGO
+            </a>
+        </div>
+    }
+</div>
