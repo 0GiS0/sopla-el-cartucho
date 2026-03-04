@@ -26,7 +26,10 @@ jobs:
         run: msbuild SoplaElCartucho.sln /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Ejecutar tests
-        uses: microsoft/vstest-action@v1.0.0
-        with:
-          testAssembly: SoplaElCartucho.Tests\bin\Release\SoplaElCartucho.Tests.dll
-          runInParallel: false
+        shell: pwsh
+        run: |
+          $vsTest = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" `
+            -latest -products * `
+            -find "Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe"
+          & $vsTest "SoplaElCartucho.Tests\bin\Release\SoplaElCartucho.Tests.dll" `
+            /TestAdapterPath:"packages\MSTest.TestAdapter.3.1.1\build\_common"
