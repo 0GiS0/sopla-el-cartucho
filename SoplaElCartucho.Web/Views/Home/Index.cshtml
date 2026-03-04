@@ -1,4 +1,4 @@
-@{
+﻿@{
     ViewBag.Title = "Inicio";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -21,9 +21,9 @@
 
 <div class="home-container">
     @* ⚠️ LEGACY: Saludo dinámico con ViewBag *@
-    <section class="hero" style="text-align: center; padding: 40px 0; border-bottom: 2px dashed #333;">
-        <h2 style="font-size: 16px; color: #00ffff;">@ViewBag.Saludo</h2>
-        <p style="margin-top: 20px; color: #888;">
+    <section class="hero" style="text-align: center; padding: 40px 0; border-bottom: 2px dashed #3d3d5c;">
+        <h2 style="font-size: 20px; color: #f0d060;">@ViewBag.Saludo</h2>
+        <p style="margin-top: 20px; color: #a0a0a0; font-size: 20px;">
             @ViewBag.Subtitulo
         </p>
         <div style="margin-top: 30px;">
@@ -35,7 +35,7 @@
     
     @* ⚠️ ANTI-PATRÓN: Consolas destacadas con ViewData *@
     <section class="consolas-section" style="margin-top: 40px;">
-        <h3 style="color: #ff00ff; border-bottom: 2px solid #ff00ff; padding-bottom: 10px;">
+        <h3 style="color: #f0d060; border-bottom: 2px solid #f0d060; padding-bottom: 10px;">
             🕹️ NUESTRAS CONSOLAS
         </h3>
         
@@ -50,13 +50,22 @@
                 {
                     foreach (var consola in consolas)
                     {
-                        <td style="background-color: #111; border: 2px solid #333; padding: 20px; text-align: center; width: 16.66%; vertical-align: top;">
-                            <div style="font-size: 40px;">🎮</div>
-                            <h4 style="color: #00ff00; margin: 10px 0; font-size: 10px;">@consola.Nombre</h4>
-                            <p style="font-size: 8px; color: #666;">@consola.Fabricante</p>
-                            <p style="font-size: 8px; color: #444;">@consola.AnioLanzamiento</p>
+                        <td style="background-color: #252538; border: 2px solid #3d3d5c; padding: 20px; text-align: center; width: 16.66%; vertical-align: top; border-radius: 8px;">
+                            @* ⚠️ LEGACY: Imagen de consola con fallback a emoji *@
+                            @if (!string.IsNullOrEmpty(consola.ImagenUrl))
+                            {
+                                <img src="@consola.ImagenUrl" alt="@consola.Nombre" style="width: 80px; height: 80px; object-fit: contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+                                <div style="font-size: 40px; display: none;">🎮</div>
+                            }
+                            else
+                            {
+                                <div style="font-size: 40px;">🎮</div>
+                            }
+                            <h4 style="color: #f0d060; margin: 10px 0; font-size: 14px;">@consola.Nombre</h4>
+                            <p style="font-size: 18px; color: #a0a0a0;">@consola.Fabricante</p>
+                            <p style="font-size: 16px; color: #707080;">@consola.AnioLanzamiento</p>
                             <a href="@Url.Action("Index", "Catalogo", new { consolaId = consola.Id })" 
-                               style="display: inline-block; margin-top: 10px; font-size: 8px; padding: 5px 10px; border: 1px solid #00ff00;">
+                               style="display: inline-block; margin-top: 10px; font-size: 18px; padding: 8px 14px; border: 2px solid #7eb8da; color: #7eb8da; border-radius: 4px;">
                                 VER JUEGOS →
                             </a>
                         </td>
@@ -73,7 +82,7 @@
     
     @* ⚠️ ANTI-PATRÓN: Juegos destacados con lógica en vista *@
     <section class="juegos-destacados" style="margin-top: 40px;">
-        <h3 style="color: #00ffff; border-bottom: 2px solid #00ffff; padding-bottom: 10px;">
+        <h3 style="color: #7eb8da; border-bottom: 2px solid #7eb8da; padding-bottom: 10px;">
             ⭐ JUEGOS DESTACADOS
         </h3>
         
@@ -87,17 +96,23 @@
                 {
                     foreach (var juego in juegos)
                     {
-                        <td style="background-color: #111; border: 2px solid #333; padding: 20px; text-align: center; width: 25%; vertical-align: top;">
-                            @* ⚠️ LEGACY: Placeholder de imagen *@
-                            <div style="width: 100px; height: 100px; background-color: #222; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 30px;">
-                                🎮
-                            </div>
-                            <h4 style="color: #ffffff; margin: 15px 0 5px; font-size: 10px;">@juego.Titulo</h4>
-                            <p style="font-size: 8px; color: #666;">@juego.Genero</p>
-                            <p style="font-size: 12px; color: #00ff00; margin: 10px 0;">
+                        <td style="background-color: #252538; border: 2px solid #3d3d5c; padding: 20px; text-align: center; width: 25%; vertical-align: top; border-radius: 8px;">
+                            @* ⚠️ LEGACY: Imagen de juego con fallback a emoji *@
+                            @if (!string.IsNullOrEmpty(juego.ImagenUrl))
+                            {
+                                <img src="@juego.ImagenUrl" alt="@juego.Titulo" style="width: 100px; height: 100px; object-fit: contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+                                <div style="width: 100px; height: 100px; background-color: #1a1a2e; margin: 0 auto; display: none; align-items: center; justify-content: center; font-size: 30px;">🎮</div>
+                            }
+                            else
+                            {
+                                <div style="width: 100px; height: 100px; background-color: #1a1a2e; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 30px;">🎮</div>
+                            }
+                            <h4 style="color: #e0e0e0; margin: 15px 0 5px; font-size: 14px;">@juego.Titulo</h4>
+                            <p style="font-size: 18px; color: #a0a0a0;">@juego.Genero</p>
+                            <p style="font-size: 22px; color: #4ecca3; margin: 10px 0;">
                                 @juego.Precio.ToString("C")
                             </p>
-                            <a href="@Url.Action("Detalle", "Catalogo", new { id = juego.Id })" class="btn btn-primary" style="font-size: 8px; padding: 8px 15px;">
+                            <a href="@Url.Action("Detalle", "Catalogo", new { id = juego.Id })" class="btn btn-primary" style="font-size: 18px; padding: 10px 18px;">
                                 VER MÁS
                             </a>
                         </td>
@@ -108,8 +123,8 @@
     </section>
     
     @* ⚠️ LEGACY: Sección de características con estilos inline *@
-    <section class="caracteristicas" style="margin-top: 50px; padding: 30px 0; border-top: 2px dashed #333;">
-        <h3 style="color: #ff00ff; text-align: center; margin-bottom: 30px;">
+    <section class="caracteristicas" style="margin-top: 50px; padding: 30px 0; border-top: 2px dashed #3d3d5c;">
+        <h3 style="color: #e85d75; text-align: center; margin-bottom: 30px;">
             ¿POR QUÉ SOPLA EL CARTUCHO?
         </h3>
         
@@ -117,23 +132,23 @@
             <tr>
                 <td style="padding: 20px; width: 25%;">
                     <div style="font-size: 40px;">💨</div>
-                    <h4 style="color: #00ff00; font-size: 10px; margin: 15px 0;">GARANTÍA SOPLO</h4>
-                    <p style="font-size: 8px; color: #888;">Si no funciona a la primera, ¡sopla y vuelve a intentar!</p>
+                    <h4 style="color: #f0d060; font-size: 12px; margin: 15px 0;">GARANTIA SOPLO</h4>
+                    <p style="font-size: 18px; color: #a0a0a0;">Si no funciona a la primera, sopla y vuelve a intentar!</p>
                 </td>
                 <td style="padding: 20px; width: 25%;">
                     <div style="font-size: 40px;">🎮</div>
-                    <h4 style="color: #00ff00; font-size: 10px; margin: 15px 0;">100% ORIGINAL</h4>
-                    <p style="font-size: 8px; color: #888;">Todos nuestros cartuchos son originales y testeados</p>
+                    <h4 style="color: #f0d060; font-size: 12px; margin: 15px 0;">100% ORIGINAL</h4>
+                    <p style="font-size: 18px; color: #a0a0a0;">Todos nuestros cartuchos son originales y testeados</p>
                 </td>
                 <td style="padding: 20px; width: 25%;">
                     <div style="font-size: 40px;">📦</div>
-                    <h4 style="color: #00ff00; font-size: 10px; margin: 15px 0;">ENVÍO RETRO</h4>
-                    <p style="font-size: 8px; color: #888;">Gratis en pedidos +50€ (no incluye máquina del tiempo)</p>
+                    <h4 style="color: #f0d060; font-size: 12px; margin: 15px 0;">ENVIO RETRO</h4>
+                    <p style="font-size: 18px; color: #a0a0a0;">Gratis en pedidos +50 euros (no incluye maquina del tiempo)</p>
                 </td>
                 <td style="padding: 20px; width: 25%;">
                     <div style="font-size: 40px;">🏆</div>
-                    <h4 style="color: #00ff00; font-size: 10px; margin: 15px 0;">NOSTALGIA PREMIUM</h4>
-                    <p style="font-size: 8px; color: #888;">Revive los mejores momentos de tu infancia</p>
+                    <h4 style="color: #f0d060; font-size: 12px; margin: 15px 0;">NOSTALGIA PREMIUM</h4>
+                    <p style="font-size: 18px; color: #a0a0a0;">Revive los mejores momentos de tu infancia</p>
                 </td>
             </tr>
         </table>
@@ -144,11 +159,6 @@
     <script type="text/javascript">
         // ⚠️ LEGACY: jQuery spaghetti code
         $(document).ready(function() {
-            // Efecto de parpadeo en el título
-            setInterval(function() {
-                $('.hero h2').css('opacity', Math.random() > 0.1 ? 1 : 0.8);
-            }, 100);
-            
             console.log('🎮 ¡Sopla el Cartucho está listo!');
             console.log('💨 Presiona F12 para ver más easter eggs...');
         });

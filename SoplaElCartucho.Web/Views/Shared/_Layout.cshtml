@@ -1,4 +1,4 @@
-@* 
+﻿@* 
     🎮 SOPLA EL CARTUCHO - Layout Principal Legacy
     
     ⚠️ ANTI-PATRONES EN ESTE ARCHIVO:
@@ -20,8 +20,8 @@
     <title>@ViewBag.Title - Sopla el Cartucho 🎮</title>
     
     @* ⚠️ LEGACY: Google Fonts inline *@
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
     @* ⚠️ LEGACY: CSS sin bundling *@
     <link href="@Url.Content("~/Content/css/site.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/css/retro.css")" rel="stylesheet" type="text/css" />
@@ -37,16 +37,21 @@
         }
         
         body {
-            font-family: 'Press Start 2P', cursive;
-            background-color: #0a0a0a;
-            color: #00ff00;
+            font-family: 'VT323', monospace;
+            background-color: #1a1a2e;
+            color: #e0e0e0;
             margin: 0;
             padding: 0;
-            font-size: 12px;
-            line-height: 1.8;
+            font-size: 22px;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Press Start 2P', cursive;
+            color: #f0d060;
         }
         
-        /* Efecto scanlines CRT */
+        /* Efecto scanlines CRT - sutil para no molestar */
         body::before {
             content: "";
             position: fixed;
@@ -57,52 +62,50 @@
             pointer-events: none;
             background: repeating-linear-gradient(
                 0deg,
-                rgba(0, 0, 0, 0.15),
-                rgba(0, 0, 0, 0.15) 1px,
+                rgba(0, 0, 0, 0.03),
+                rgba(0, 0, 0, 0.03) 1px,
                 transparent 1px,
-                transparent 2px
+                transparent 3px
             );
             z-index: 9999;
         }
         
         a {
-            color: #00ffff;
+            color: #7eb8da;
             text-decoration: none;
         }
         
         a:hover {
-            color: #ff00ff;
-            text-shadow: 0 0 10px #ff00ff;
+            color: #f0d060;
+            text-shadow: 0 0 8px rgba(240, 208, 96, 0.5);
         }
         
         /* Header retro */
         .header {
-            background: linear-gradient(180deg, #1a0a2e 0%, #0a0a0a 100%);
-            border-bottom: 4px solid #00ff00;
+            background: linear-gradient(180deg, #2d2d44 0%, #1a1a2e 100%);
+            border-bottom: 4px solid #f0d060;
             padding: 20px;
             text-align: center;
         }
         
         .header h1 {
             font-size: 24px;
-            color: #00ff00;
-            text-shadow: 3px 3px 0px #ff00ff, 6px 6px 0px #00ffff;
+            color: #f0d060;
+            text-shadow: 2px 2px 0px #e85d75;
             margin: 0;
-            animation: flicker 3s infinite;
         }
         
-        @@keyframes flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.95; }
-            51% { opacity: 0.85; }
-            52% { opacity: 1; }
+        .header-logo {
+            max-width: 500px;
+            height: auto;
+            margin-bottom: 10px;
         }
         
         /* Navegación */
         .nav {
-            background-color: #1a1a1a;
-            padding: 10px;
-            border-bottom: 2px solid #333;
+            background-color: #252538;
+            padding: 12px;
+            border-bottom: 2px solid #3d3d5c;
         }
         
         .nav ul {
@@ -118,25 +121,27 @@
         }
         
         .nav a {
-            color: #ffffff;
-            padding: 5px 15px;
+            color: #e0e0e0;
+            padding: 8px 16px;
             border: 2px solid transparent;
+            border-radius: 4px;
             transition: all 0.3s;
         }
         
         .nav a:hover {
-            border-color: #00ff00;
-            background-color: #002200;
+            border-color: #f0d060;
+            background-color: #3d3d5c;
+            color: #f0d060;
         }
         
         /* Carrito badge */
         .carrito-badge {
-            background-color: #ff0000;
+            background-color: #e85d75;
             color: #ffffff;
-            padding: 2px 8px;
-            font-size: 10px;
-            border-radius: 0;
-            margin-left: 5px;
+            padding: 3px 10px;
+            font-size: 14px;
+            border-radius: 12px;
+            margin-left: 8px;
         }
         
         /* Container principal */
@@ -148,16 +153,16 @@
         
         /* Footer retro */
         .footer {
-            background-color: #0a0a0a;
-            border-top: 4px solid #00ff00;
+            background-color: #151525;
+            border-top: 4px solid #f0d060;
             padding: 20px;
             text-align: center;
             margin-top: 40px;
         }
         
         .footer p {
-            font-size: 10px;
-            color: #666;
+            font-size: 18px;
+            color: #a0a0a0;
         }
         
         /* Mensajes de alerta */
@@ -165,59 +170,61 @@
             padding: 15px;
             margin-bottom: 20px;
             border: 2px solid;
+            border-radius: 6px;
         }
         
         .alert-success {
-            background-color: #002200;
-            border-color: #00ff00;
-            color: #00ff00;
+            background-color: #1e3a2f;
+            border-color: #4ecca3;
+            color: #4ecca3;
         }
         
         .alert-error {
-            background-color: #220000;
-            border-color: #ff0000;
-            color: #ff0000;
+            background-color: #3a1e2f;
+            border-color: #e85d75;
+            color: #e85d75;
         }
         
         /* Botones retro */
         .btn {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 10px;
-            padding: 10px 20px;
+            font-family: 'VT323', monospace;
+            font-size: 22px;
+            padding: 12px 24px;
             border: 3px solid;
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.2s;
             text-transform: uppercase;
         }
         
         .btn-primary {
-            background-color: #00ff00;
-            border-color: #00ff00;
-            color: #000000;
+            background-color: #f0d060;
+            border-color: #f0d060;
+            color: #1a1a2e;
         }
         
         .btn-primary:hover {
-            background-color: #00cc00;
-            box-shadow: 0 0 20px #00ff00;
+            background-color: #f5e080;
+            box-shadow: 0 0 15px rgba(240, 208, 96, 0.5);
         }
         
         .btn-danger {
-            background-color: #ff0000;
-            border-color: #ff0000;
+            background-color: #e85d75;
+            border-color: #e85d75;
             color: #ffffff;
         }
         
         .btn-danger:hover {
-            background-color: #cc0000;
-            box-shadow: 0 0 20px #ff0000;
+            background-color: #f07088;
+            box-shadow: 0 0 15px rgba(232, 93, 117, 0.5);
         }
     </style>
 </head>
 <body>
     @* ⚠️ LEGACY: Header con logo y navegación *@
     <header class="header">
-        <h1>🎮 SOPLA EL CARTUCHO 💨</h1>
-        <p style="font-size: 8px; color: #888; margin-top: 10px;">Tu tienda de videojuegos retro favorita</p>
+        <img src="@Url.Content("~/Content/images/sopla-el-cartucho-logo.png")" alt="Sopla el Cartucho" class="header-logo" />
+        <p style="font-size: 18px; color: #888; margin-top: 10px;">Tu tienda de videojuegos retro favorita</p>
     </header>
     
     @* ⚠️ ANTI-PATRÓN: Navegación con lógica inline *@
@@ -278,7 +285,7 @@
             <a href="@Url.Action("About", "Home")">SOBRE NOSOTROS</a> | 
             <a href="@Url.Action("Contact", "Home")">CONTACTO</a>
         </p>
-        <p style="font-size: 8px; margin-top: 15px; color: #444;">
+        <p style="font-size: 16px; margin-top: 15px; color: #444;">
             ⚠️ Aplicación Legacy .NET Framework 4.8 - Solo para demostración
         </p>
     </footer>

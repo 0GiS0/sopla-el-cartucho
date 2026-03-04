@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" fill="#1a1a1a"/>
+  <!-- Game box -->
+  <rect x="20" y="10" width="160" height="180" rx="5" ry="5" fill="#0055cc"/>
+  <rect x="20" y="10" width="160" height="5" rx="3" ry="3" fill="#3399ff"/>
+  <!-- Art area -->
+  <rect x="25" y="20" width="150" height="95" rx="3" ry="3" fill="#111" opacity="0.4"/>
+  <!-- Pixel art icon -->
+  <text x="100" y="78" font-size="55" text-anchor="middle" dominant-baseline="middle">💨</text>
+  <!-- Console badge -->
+  <rect x="20" y="105" width="160" height="18" fill="#3399ff"/>
+  <text x="100" y="118" font-family="monospace" font-size="9" fill="#000" text-anchor="middle" font-weight="bold">MEGA DRIVE</text>
+  <!-- Title -->
+  <text x="100" y="127" font-family="monospace" font-size="10" font-weight="bold" fill="white" text-anchor="middle">Sonic the</text>
+  <text x="100" y="141" font-family="monospace" font-size="10" font-weight="bold" fill="white" text-anchor="middle">Hedgehog 2</text>
+</svg>

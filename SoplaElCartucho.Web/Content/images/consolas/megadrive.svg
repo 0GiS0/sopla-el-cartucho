@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" fill="#1a1a1a"/>
+  <!-- Console body - sleek black -->
+  <rect x="10" y="65" width="180" height="85" rx="5" ry="5" fill="#222"/>
+  <rect x="10" y="65" width="180" height="20" rx="3" ry="3" fill="#111"/>
+  <!-- Cartridge slot top -->
+  <rect x="60" y="58" width="80" height="15" rx="2" ry="2" fill="#000"/>
+  <!-- Stripe -->
+  <rect x="10" y="120" width="180" height="5" fill="#cc0000"/>
+  <!-- Buttons -->
+  <circle cx="150" cy="100" r="6" fill="#333"/>
+  <circle cx="165" cy="100" r="6" fill="#333"/>
+  <!-- Power LED -->
+  <circle cx="30" cy="75" r="4" fill="#cc0000"/>
+  <!-- SEGA logo area -->
+  <rect x="70" y="80" width="60" height="20" rx="2" ry="2" fill="#111"/>
+  <text x="100" y="95" font-family="monospace" font-size="10" font-weight="bold" fill="#cc0000" text-anchor="middle">SEGA</text>
+  <!-- Label -->
+  <text x="100" y="175" font-family="monospace" font-size="10" font-weight="bold" fill="#cc0000" text-anchor="middle">MEGA DRIVE</text>
+</svg>
