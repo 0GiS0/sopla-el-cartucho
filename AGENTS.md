@@ -1,0 +1,1 @@
+Cuando se te pida una nueva implementación de un Issue debes seguir GitHub Flow
