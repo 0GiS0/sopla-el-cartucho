@@ -1,8 +1,9 @@
 # 🎮 Sopla el Cartucho 💨
 
-> **Tu tienda de videojuegos retro favorita** - Aplicación Legacy .NET Framework 3.5
+> **Tu tienda de videojuegos retro favorita** - Aplicación Legacy .NET Framework 4.8
 
-![.NET Framework](https://img.shields.io/badge/.NET%20Framework-3.5-purple?style=flat-square)
+[![CI](https://github.com/0GiS0/sopla-el-cartucho/actions/workflows/ci.yml/badge.svg)](https://github.com/0GiS0/sopla-el-cartucho/actions/workflows/ci.yml)
+![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.8-purple?style=flat-square)
 ![ASP.NET MVC](https://img.shields.io/badge/ASP.NET%20MVC-3-blue?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-Legacy%20Demo-orange?style=flat-square)
 

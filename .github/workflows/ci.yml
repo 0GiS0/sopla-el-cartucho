@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restaurar paquetes NuGet
+        run: nuget restore SoplaElCartucho.sln
+
+      - name: Compilar solución
+        run: msbuild SoplaElCartucho.sln /p:Configuration=Release /p:Platform="Any CPU"
+
+      - name: Ejecutar tests
+        uses: microsoft/vstest-action@v1.0.0
+        with:
+          testAssembly: SoplaElCartucho.Tests\bin\Release\SoplaElCartucho.Tests.dll
+          runInParallel: false
