@@ -36,9 +36,16 @@
         <tr>
             @* Imagen del juego *@
             <td style="width: 40%; padding: 30px; text-align: center; vertical-align: top;">
-                <div style="width: 250px; height: 250px; background-color: #222; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 80px; border: 4px solid #333;">
-                    🎮
-                </div>
+                @* ⚠️ LEGACY: Imagen de juego con fallback a emoji *@
+                @if (!string.IsNullOrEmpty(Model.ImagenUrl))
+                {
+                    <img src="@Model.ImagenUrl" alt="@Model.Titulo" style="width: 250px; height: 250px; object-fit: contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+                    <div style="width: 250px; height: 250px; background-color: #222; margin: 0 auto; display: none; align-items: center; justify-content: center; font-size: 80px; border: 4px solid #333;">🎮</div>
+                }
+                else
+                {
+                    <div style="width: 250px; height: 250px; background-color: #222; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 80px; border: 4px solid #333;">🎮</div>
+                }
                 
                 @if (Model.Destacado)
                 {
@@ -176,9 +183,16 @@
                     @foreach (var relacionado in relacionados)
                     {
                         <td style="background-color: #111; border: 2px solid #333; padding: 15px; text-align: center; width: 25%;">
-                            <div style="width: 80px; height: 80px; background-color: #222; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 30px;">
-                                🎮
-                            </div>
+                            @* ⚠️ LEGACY: Imagen de juego relacionado con fallback a emoji *@
+                            @if (!string.IsNullOrEmpty(relacionado.ImagenUrl))
+                            {
+                                <img src="@relacionado.ImagenUrl" alt="@relacionado.Titulo" style="width: 80px; height: 80px; object-fit: contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+                                <div style="width: 80px; height: 80px; background-color: #222; margin: 0 auto; display: none; align-items: center; justify-content: center; font-size: 30px;">🎮</div>
+                            }
+                            else
+                            {
+                                <div style="width: 80px; height: 80px; background-color: #222; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 30px;">🎮</div>
+                            }
                             <h4 style="color: #fff; font-size: 8px; margin: 10px 0; min-height: 30px;">@relacionado.Titulo</h4>
                             <p style="color: #00ff00; font-size: 10px;">@relacionado.Precio.ToString("C")</p>
                             <a href="@Url.Action("Detalle", new { id = relacionado.Id, slug = relacionado.ObtenerSlug() })" 

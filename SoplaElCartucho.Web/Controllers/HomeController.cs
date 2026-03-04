@@ -25,20 +25,20 @@ namespace SoplaElCartucho.Web.Controllers
         // ⚠️ ANTI-PATRÓN: Datos hardcodeados - debería venir de base de datos/servicio
         private static readonly List<Consola> _consolasDestacadas = new List<Consola>
         {
-            new Consola { Id = 1, Nombre = "NES", Fabricante = "Nintendo", AnioLanzamiento = 1983, ImagenUrl = "/Content/images/consolas/nes.png" },
-            new Consola { Id = 2, Nombre = "SNES", Fabricante = "Nintendo", AnioLanzamiento = 1990, ImagenUrl = "/Content/images/consolas/snes.png" },
-            new Consola { Id = 3, Nombre = "Mega Drive", Fabricante = "SEGA", AnioLanzamiento = 1988, ImagenUrl = "/Content/images/consolas/megadrive.png" },
-            new Consola { Id = 4, Nombre = "PlayStation", Fabricante = "Sony", AnioLanzamiento = 1994, ImagenUrl = "/Content/images/consolas/ps1.png" },
-            new Consola { Id = 5, Nombre = "Nintendo 64", Fabricante = "Nintendo", AnioLanzamiento = 1996, ImagenUrl = "/Content/images/consolas/n64.png" },
-            new Consola { Id = 6, Nombre = "Game Boy", Fabricante = "Nintendo", AnioLanzamiento = 1989, ImagenUrl = "/Content/images/consolas/gameboy.png" }
+            new Consola { Id = 1, Nombre = "NES", Fabricante = "Nintendo", AnioLanzamiento = 1983, ImagenUrl = "/Content/images/consolas/nes.svg" },
+            new Consola { Id = 2, Nombre = "SNES", Fabricante = "Nintendo", AnioLanzamiento = 1990, ImagenUrl = "/Content/images/consolas/snes.svg" },
+            new Consola { Id = 3, Nombre = "Mega Drive", Fabricante = "SEGA", AnioLanzamiento = 1988, ImagenUrl = "/Content/images/consolas/megadrive.svg" },
+            new Consola { Id = 4, Nombre = "PlayStation", Fabricante = "Sony", AnioLanzamiento = 1994, ImagenUrl = "/Content/images/consolas/ps1.svg" },
+            new Consola { Id = 5, Nombre = "Nintendo 64", Fabricante = "Nintendo", AnioLanzamiento = 1996, ImagenUrl = "/Content/images/consolas/n64.svg" },
+            new Consola { Id = 6, Nombre = "Game Boy", Fabricante = "Nintendo", AnioLanzamiento = 1989, ImagenUrl = "/Content/images/consolas/gameboy.svg" }
         };
 
         private static readonly List<Juego> _juegosDestacados = new List<Juego>
         {
-            new Juego { Id = 1, Titulo = "Super Mario Bros 3", ConsolaId = 1, Precio = 29.99m, ImagenUrl = "/Content/images/juegos/smb3.png", Genero = "Plataformas", AnioLanzamiento = 1988, Desarrollador = "Nintendo", Destacado = true },
-            new Juego { Id = 2, Titulo = "The Legend of Zelda: A Link to the Past", ConsolaId = 2, Precio = 39.99m, ImagenUrl = "/Content/images/juegos/zelda-alttp.png", Genero = "Aventura", AnioLanzamiento = 1991, Desarrollador = "Nintendo", Destacado = true },
-            new Juego { Id = 3, Titulo = "Sonic the Hedgehog 2", ConsolaId = 3, Precio = 24.99m, ImagenUrl = "/Content/images/juegos/sonic2.png", Genero = "Plataformas", AnioLanzamiento = 1992, Desarrollador = "SEGA", Destacado = true },
-            new Juego { Id = 4, Titulo = "Final Fantasy VII", ConsolaId = 4, Precio = 49.99m, ImagenUrl = "/Content/images/juegos/ff7.png", Genero = "RPG", AnioLanzamiento = 1997, Desarrollador = "Square", Destacado = true }
+            new Juego { Id = 1, Titulo = "Super Mario Bros 3", ConsolaId = 1, Precio = 29.99m, ImagenUrl = "/Content/images/juegos/smb3.svg", Genero = "Plataformas", AnioLanzamiento = 1988, Desarrollador = "Nintendo", Destacado = true },
+            new Juego { Id = 2, Titulo = "The Legend of Zelda: A Link to the Past", ConsolaId = 2, Precio = 39.99m, ImagenUrl = "/Content/images/juegos/zelda-alttp.svg", Genero = "Aventura", AnioLanzamiento = 1991, Desarrollador = "Nintendo", Destacado = true },
+            new Juego { Id = 3, Titulo = "Sonic the Hedgehog 2", ConsolaId = 3, Precio = 24.99m, ImagenUrl = "/Content/images/juegos/sonic2.svg", Genero = "Plataformas", AnioLanzamiento = 1992, Desarrollador = "SEGA", Destacado = true },
+            new Juego { Id = 4, Titulo = "Final Fantasy VII", ConsolaId = 4, Precio = 49.99m, ImagenUrl = "/Content/images/juegos/ff7.svg", Genero = "RPG", AnioLanzamiento = 1997, Desarrollador = "Square", Destacado = true }
         };
 
         // GET: /

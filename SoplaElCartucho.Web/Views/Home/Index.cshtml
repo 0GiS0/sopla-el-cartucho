@@ -51,7 +51,16 @@
                     foreach (var consola in consolas)
                     {
                         <td style="background-color: #111; border: 2px solid #333; padding: 20px; text-align: center; width: 16.66%; vertical-align: top;">
-                            <div style="font-size: 40px;">🎮</div>
+                            @* ⚠️ LEGACY: Imagen de consola con fallback a emoji *@
+                            @if (!string.IsNullOrEmpty(consola.ImagenUrl))
+                            {
+                                <img src="@consola.ImagenUrl" alt="@consola.Nombre" style="width: 80px; height: 80px; object-fit: contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+                                <div style="font-size: 40px; display: none;">🎮</div>
+                            }
+                            else
+                            {
+                                <div style="font-size: 40px;">🎮</div>
+                            }
                             <h4 style="color: #00ff00; margin: 10px 0; font-size: 10px;">@consola.Nombre</h4>
                             <p style="font-size: 8px; color: #666;">@consola.Fabricante</p>
                             <p style="font-size: 8px; color: #444;">@consola.AnioLanzamiento</p>
@@ -88,10 +97,16 @@
                     foreach (var juego in juegos)
                     {
                         <td style="background-color: #111; border: 2px solid #333; padding: 20px; text-align: center; width: 25%; vertical-align: top;">
-                            @* ⚠️ LEGACY: Placeholder de imagen *@
-                            <div style="width: 100px; height: 100px; background-color: #222; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 30px;">
-                                🎮
-                            </div>
+                            @* ⚠️ LEGACY: Imagen de juego con fallback a emoji *@
+                            @if (!string.IsNullOrEmpty(juego.ImagenUrl))
+                            {
+                                <img src="@juego.ImagenUrl" alt="@juego.Titulo" style="width: 100px; height: 100px; object-fit: contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+                                <div style="width: 100px; height: 100px; background-color: #222; margin: 0 auto; display: none; align-items: center; justify-content: center; font-size: 30px;">🎮</div>
+                            }
+                            else
+                            {
+                                <div style="width: 100px; height: 100px; background-color: #222; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 30px;">🎮</div>
+                            }
                             <h4 style="color: #ffffff; margin: 15px 0 5px; font-size: 10px;">@juego.Titulo</h4>
                             <p style="font-size: 8px; color: #666;">@juego.Genero</p>
                             <p style="font-size: 12px; color: #00ff00; margin: 10px 0;">

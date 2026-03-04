@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" fill="#1a1a1a"/>
+  <!-- Console body - M-shaped -->
+  <rect x="20" y="70" width="160" height="80" rx="8" ry="8" fill="#222"/>
+  <!-- Left prong -->
+  <rect x="20" y="50" width="45" height="40" rx="5" ry="5" fill="#222"/>
+  <!-- Right prong -->
+  <rect x="135" y="50" width="45" height="40" rx="5" ry="5" fill="#222"/>
+  <!-- Middle top (cartridge area) -->
+  <rect x="70" y="60" width="60" height="30" rx="3" ry="3" fill="#111"/>
+  <!-- Cartridge slot -->
+  <rect x="80" y="55" width="40" height="12" rx="2" ry="2" fill="#000"/>
+  <!-- Power button -->
+  <circle cx="100" cy="100" r="10" fill="#cc0000"/>
+  <!-- Reset button -->
+  <circle cx="80" cy="100" r="5" fill="#333"/>
+  <!-- Controller ports -->
+  <rect x="35" y="115" width="20" height="15" rx="3" ry="3" fill="#111"/>
+  <rect x="90" y="115" width="20" height="15" rx="3" ry="3" fill="#111"/>
+  <rect x="145" y="115" width="20" height="15" rx="3" ry="3" fill="#111"/>
+  <!-- Power LED -->
+  <circle cx="118" cy="100" r="4" fill="#44ff44"/>
+  <!-- Label -->
+  <text x="100" y="175" font-family="monospace" font-size="11" font-weight="bold" fill="#aaaaaa" text-anchor="middle">NINTENDO 64</text>
+</svg>

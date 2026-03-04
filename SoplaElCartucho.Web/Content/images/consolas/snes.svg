@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" fill="#1a1a1a"/>
+  <!-- Console body -->
+  <rect x="15" y="55" width="170" height="110" rx="10" ry="10" fill="#7a6a9a"/>
+  <rect x="15" y="55" width="170" height="40" rx="6" ry="6" fill="#6a5a8a"/>
+  <!-- Cartridge slot -->
+  <rect x="60" y="50" width="80" height="15" rx="3" ry="3" fill="#3a2a5a"/>
+  <!-- Buttons ABXY -->
+  <circle cx="148" cy="105" r="7" fill="#ffff00"/>
+  <circle cx="162" cy="95" r="7" fill="#ff4444"/>
+  <circle cx="134" cy="95" r="7" fill="#4444ff"/>
+  <circle cx="148" cy="85" r="7" fill="#44cc44"/>
+  <!-- D-pad -->
+  <rect x="50" y="88" width="30" height="10" rx="2" ry="2" fill="#2a1a4a"/>
+  <rect x="60" y="78" width="10" height="30" rx="2" ry="2" fill="#2a1a4a"/>
+  <!-- Power LED -->
+  <circle cx="100" cy="72" r="4" fill="#44ff44"/>
+  <!-- Label -->
+  <text x="100" y="175" font-family="monospace" font-size="13" font-weight="bold" fill="#cc99ff" text-anchor="middle">SNES</text>
+</svg>
