@@ -1,4 +1,4 @@
-@model SoplaElCartucho.Web.Models.Pedido
+﻿@model SoplaElCartucho.Web.Models.Pedido
 @{
     ViewBag.Title = "Checkout";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,34 +18,34 @@
                 @* Formulario de envío *@
                 <td style="width: 60%; vertical-align: top; padding-right: 30px;">
                     <div style="background-color: #111; border: 2px solid #333; padding: 20px;">
-                        <h3 style="color: #ff00ff; font-size: 12px; margin-bottom: 20px;">📦 DATOS DE ENVÍO</h3>
-                        
+                        <h3 style="color: #ff00ff; font-size: 24px; margin-bottom: 20px;">📦 DATOS DE ENVÍO</h3>
+
                         <div style="margin-bottom: 15px;">
-                            <label style="color: #666; font-size: 10px; display: block; margin-bottom: 5px;">Dirección *</label>
+                            <label style="color: #666; font-size: 18px; display: block; margin-bottom: 5px;">Dirección *</label>
                             <input type="text" name="direccion" required 
-                                   style="width: 100%; padding: 10px; font-family: 'Press Start 2P'; font-size: 10px; background-color: #222; color: #fff; border: 2px solid #333;" 
+                                   style="width: 100%; padding: 10px; font-family: 'VT323'; font-size: 20px; background-color: #222; color: #fff; border: 2px solid #333;" 
                                    placeholder="Calle Pixel 8, Portal 2, 1ºA" />
                         </div>
-                        
+
                         <div style="margin-bottom: 15px; display: flex; gap: 15px;">
                             <div style="flex: 2;">
-                                <label style="color: #666; font-size: 10px; display: block; margin-bottom: 5px;">Ciudad *</label>
+                                <label style="color: #666; font-size: 18px; display: block; margin-bottom: 5px;">Ciudad *</label>
                                 <input type="text" name="ciudad" required 
-                                       style="width: 100%; padding: 10px; font-family: 'Press Start 2P'; font-size: 10px; background-color: #222; color: #fff; border: 2px solid #333;" 
+                                       style="width: 100%; padding: 10px; font-family: 'VT323'; font-size: 20px; background-color: #222; color: #fff; border: 2px solid #333;" 
                                        placeholder="Bit City" />
                             </div>
                             <div style="flex: 1;">
-                                <label style="color: #666; font-size: 10px; display: block; margin-bottom: 5px;">C.P. *</label>
+                                <label style="color: #666; font-size: 18px; display: block; margin-bottom: 5px;">C.P. *</label>
                                 <input type="text" name="codigoPostal" required 
-                                       style="width: 100%; padding: 10px; font-family: 'Press Start 2P'; font-size: 10px; background-color: #222; color: #fff; border: 2px solid #333;" 
+                                       style="width: 100%; padding: 10px; font-family: 'VT323'; font-size: 20px; background-color: #222; color: #fff; border: 2px solid #333;" 
                                        placeholder="28080" />
                             </div>
                         </div>
-                        
+
                         <div style="margin-bottom: 15px;">
-                            <label style="color: #666; font-size: 10px; display: block; margin-bottom: 5px;">Teléfono de contacto</label>
+                            <label style="color: #666; font-size: 18px; display: block; margin-bottom: 5px;">Teléfono de contacto</label>
                             <input type="tel" name="telefono" 
-                                   style="width: 100%; padding: 10px; font-family: 'Press Start 2P'; font-size: 10px; background-color: #222; color: #fff; border: 2px solid #333;" 
+                                   style="width: 100%; padding: 10px; font-family: 'VT323'; font-size: 20px; background-color: #222; color: #fff; border: 2px solid #333;" 
                                    placeholder="666 123 456" />
                         </div>
                         

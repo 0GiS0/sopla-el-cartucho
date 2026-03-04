@@ -27,7 +27,8 @@ html {
 }
 
 body {
-    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-family: 'VT323', 'Courier New', monospace;
+    font-size: 20px;
     background-color: #0a0a0a;
     color: #00ff00;
     min-height: 100vh;
@@ -47,7 +48,8 @@ a:hover {
 
 /* Inputs y formularios */
 input, select, textarea {
-    font-family: 'Press Start 2P', monospace;
+    font-family: 'VT323', monospace;
+    font-size: 20px;
     background-color: #1a1a1a;
     border: 2px solid #333;
     color: #00ff00;
@@ -63,8 +65,8 @@ input:focus, select:focus, textarea:focus {
 
 /* Botones */
 .btn {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
+    font-family: 'VT323', monospace;
+    font-size: 22px;
     padding: 12px 24px;
     border: 3px solid;
     cursor: pointer;
@@ -119,7 +121,7 @@ input:focus, select:focus, textarea:focus {
     padding: 15px 20px;
     margin-bottom: 20px;
     border: 2px solid;
-    font-size: 10px;
+    font-size: 20px;
 }
 
 .alert-success {
@@ -162,7 +164,7 @@ input:focus, select:focus, textarea:focus {
 
 .panel-title {
     color: #ff00ff;
-    font-size: 12px;
+    font-size: 24px;
 }
 
 /* Tablas */
@@ -179,7 +181,7 @@ th, td {
 th {
     background-color: #1a1a1a;
     color: #00ffff;
-    font-size: 10px;
+    font-size: 20px;
     border-bottom: 2px solid #333;
 }
 
@@ -224,15 +226,15 @@ tr:hover {
 /* Responsive básico */
 @media (max-width: 768px) {
     body {
-        font-size: 8px;
+        font-size: 18px;
     }
-    
+
     .container {
         padding: 10px;
     }
-    
+
     .btn {
         padding: 10px 15px;
-        font-size: 8px;
+        font-size: 18px;
     }
 }

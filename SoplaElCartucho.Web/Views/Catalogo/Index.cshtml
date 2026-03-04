@@ -1,4 +1,4 @@
-@model System.Collections.Generic.List<SoplaElCartucho.Web.Models.Juego>
+﻿@model System.Collections.Generic.List<SoplaElCartucho.Web.Models.Juego>
 @{
     ViewBag.Title = "Catálogo";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -35,8 +35,8 @@
         <table style="width: 100%;">
             <tr>
                 <td style="width: 33%; padding: 10px;">
-                    <label style="color: #00ffff; font-size: 10px;">CONSOLA:</label><br/>
-                    <select id="filtroConsola" onchange="aplicarFiltros()" style="width: 100%; padding: 8px; margin-top: 5px; font-family: 'Press Start 2P'; font-size: 8px; background-color: #222; color: #fff; border: 2px solid #333;">
+                    <label style="color: #00ffff; font-size: 18px;">CONSOLA:</label><br/>
+                    <select id="filtroConsola" onchange="aplicarFiltros()" style="width: 100%; padding: 8px; margin-top: 5px; font-family: 'VT323'; font-size: 20px; background-color: #222; color: #fff; border: 2px solid #333;">
                         <option value="">-- Todas --</option>
                         @{
                             var consolas = ViewBag.Consolas as System.Collections.Generic.List<SoplaElCartucho.Web.Models.Consola>;
