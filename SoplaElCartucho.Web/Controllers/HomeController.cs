@@ -35,10 +35,10 @@ namespace SoplaElCartucho.Web.Controllers
 
         private static readonly List<Juego> _juegosDestacados = new List<Juego>
         {
-            new Juego { Id = 1, Titulo = "Super Mario Bros 3", ConsolaId = 1, Precio = 29.99m, ImagenUrl = "/Content/images/juegos/smb3.svg", Genero = "Plataformas", AnioLanzamiento = 1988, Desarrollador = "Nintendo", Destacado = true },
-            new Juego { Id = 2, Titulo = "The Legend of Zelda: A Link to the Past", ConsolaId = 2, Precio = 39.99m, ImagenUrl = "/Content/images/juegos/zelda-alttp.svg", Genero = "Aventura", AnioLanzamiento = 1991, Desarrollador = "Nintendo", Destacado = true },
-            new Juego { Id = 3, Titulo = "Sonic the Hedgehog 2", ConsolaId = 3, Precio = 24.99m, ImagenUrl = "/Content/images/juegos/sonic2.svg", Genero = "Plataformas", AnioLanzamiento = 1992, Desarrollador = "SEGA", Destacado = true },
-            new Juego { Id = 4, Titulo = "Final Fantasy VII", ConsolaId = 4, Precio = 49.99m, ImagenUrl = "/Content/images/juegos/ff7.svg", Genero = "RPG", AnioLanzamiento = 1997, Desarrollador = "Square", Destacado = true }
+            new Juego { Id = 1, Titulo = "Super Mario Bros 3", ConsolaId = 1, Precio = 29.99m, ImagenUrl = "/Content/images/juegos/smb3.png", Genero = "Plataformas", AnioLanzamiento = 1988, Desarrollador = "Nintendo", Destacado = true },
+            new Juego { Id = 2, Titulo = "The Legend of Zelda: A Link to the Past", ConsolaId = 2, Precio = 39.99m, ImagenUrl = "/Content/images/juegos/zelda-alttp.jpg", Genero = "Aventura", AnioLanzamiento = 1991, Desarrollador = "Nintendo", Destacado = true },
+            new Juego { Id = 3, Titulo = "Sonic the Hedgehog 2", ConsolaId = 3, Precio = 24.99m, ImagenUrl = "/Content/images/juegos/sonic2.jpg", Genero = "Plataformas", AnioLanzamiento = 1992, Desarrollador = "SEGA", Destacado = true },
+            new Juego { Id = 4, Titulo = "Final Fantasy VII", ConsolaId = 4, Precio = 49.99m, ImagenUrl = "/Content/images/juegos/ff7.jpg", Genero = "RPG", AnioLanzamiento = 1997, Desarrollador = "Square", Destacado = true }
         };
 
         // GET: /
