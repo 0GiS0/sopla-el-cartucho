@@ -37,32 +37,32 @@ namespace SoplaElCartucho.Web.Controllers
         private static List<Juego> _juegos = new List<Juego>
         {
             // NES
-            new Juego { Id = 1, Titulo = "Super Mario Bros 3", ConsolaId = 1, Precio = 29.99m, Stock = 5, ImagenUrl = "/Content/images/juegos/smb3.svg", Genero = "Plataformas", AnioLanzamiento = 1988, Desarrollador = "Nintendo", Estado = "BuenEstado", Activo = true, Destacado = true },
-            new Juego { Id = 2, Titulo = "Mega Man 2", ConsolaId = 1, Precio = 34.99m, Stock = 3, ImagenUrl = "/Content/images/juegos/megaman2.svg", Genero = "Acción", AnioLanzamiento = 1988, Desarrollador = "Capcom", Estado = "BuenEstado", Activo = true },
-            new Juego { Id = 3, Titulo = "Castlevania", ConsolaId = 1, Precio = 39.99m, Stock = 2, ImagenUrl = "/Content/images/juegos/castlevania.svg", Genero = "Acción", AnioLanzamiento = 1986, Desarrollador = "Konami", Estado = "Usado", Activo = true },
+            new Juego { Id = 1, Titulo = "Super Mario Bros 3", ConsolaId = 1, Precio = 29.99m, Stock = 5, ImagenUrl = "/Content/images/juegos/smb3.png", Genero = "Plataformas", AnioLanzamiento = 1988, Desarrollador = "Nintendo", Estado = "BuenEstado", Activo = true, Destacado = true },
+            new Juego { Id = 2, Titulo = "Mega Man 2", ConsolaId = 1, Precio = 34.99m, Stock = 3, ImagenUrl = "/Content/images/juegos/megaman2.jpg", Genero = "Acción", AnioLanzamiento = 1988, Desarrollador = "Capcom", Estado = "BuenEstado", Activo = true },
+            new Juego { Id = 3, Titulo = "Castlevania", ConsolaId = 1, Precio = 39.99m, Stock = 2, ImagenUrl = "/Content/images/juegos/castlevania.jpg", Genero = "Acción", AnioLanzamiento = 1986, Desarrollador = "Konami", Estado = "Usado", Activo = true },
             
             // SNES  
-            new Juego { Id = 4, Titulo = "The Legend of Zelda: A Link to the Past", ConsolaId = 2, Precio = 44.99m, Stock = 4, ImagenUrl = "/Content/images/juegos/zelda-alttp.svg", Genero = "Aventura", AnioLanzamiento = 1991, Desarrollador = "Nintendo", Estado = "BuenEstado", Activo = true, Destacado = true },
-            new Juego { Id = 5, Titulo = "Super Metroid", ConsolaId = 2, Precio = 54.99m, Stock = 2, ImagenUrl = "/Content/images/juegos/supermetroid.svg", Genero = "Acción", AnioLanzamiento = 1994, Desarrollador = "Nintendo", Estado = "Nuevo", Activo = true },
-            new Juego { Id = 6, Titulo = "Chrono Trigger", ConsolaId = 2, Precio = 89.99m, Stock = 1, ImagenUrl = "/Content/images/juegos/chronotrigger.svg", Genero = "RPG", AnioLanzamiento = 1995, Desarrollador = "Square", Estado = "BuenEstado", Activo = true, Destacado = true },
+            new Juego { Id = 4, Titulo = "The Legend of Zelda: A Link to the Past", ConsolaId = 2, Precio = 44.99m, Stock = 4, ImagenUrl = "/Content/images/juegos/zelda-alttp.jpg", Genero = "Aventura", AnioLanzamiento = 1991, Desarrollador = "Nintendo", Estado = "BuenEstado", Activo = true, Destacado = true },
+            new Juego { Id = 5, Titulo = "Super Metroid", ConsolaId = 2, Precio = 54.99m, Stock = 2, ImagenUrl = "/Content/images/juegos/supermetroid.jpg", Genero = "Acción", AnioLanzamiento = 1994, Desarrollador = "Nintendo", Estado = "Nuevo", Activo = true },
+            new Juego { Id = 6, Titulo = "Chrono Trigger", ConsolaId = 2, Precio = 89.99m, Stock = 1, ImagenUrl = "/Content/images/juegos/chronotrigger.jpg", Genero = "RPG", AnioLanzamiento = 1995, Desarrollador = "Square", Estado = "BuenEstado", Activo = true, Destacado = true },
             
             // Mega Drive
-            new Juego { Id = 7, Titulo = "Sonic the Hedgehog 2", ConsolaId = 3, Precio = 24.99m, Stock = 8, ImagenUrl = "/Content/images/juegos/sonic2.svg", Genero = "Plataformas", AnioLanzamiento = 1992, Desarrollador = "SEGA", Estado = "BuenEstado", Activo = true, Destacado = true },
-            new Juego { Id = 8, Titulo = "Streets of Rage 2", ConsolaId = 3, Precio = 29.99m, Stock = 4, ImagenUrl = "/Content/images/juegos/sor2.svg", Genero = "Beat'em up", AnioLanzamiento = 1992, Desarrollador = "SEGA", Estado = "Usado", Activo = true },
+            new Juego { Id = 7, Titulo = "Sonic the Hedgehog 2", ConsolaId = 3, Precio = 24.99m, Stock = 8, ImagenUrl = "/Content/images/juegos/sonic2.jpg", Genero = "Plataformas", AnioLanzamiento = 1992, Desarrollador = "SEGA", Estado = "BuenEstado", Activo = true, Destacado = true },
+            new Juego { Id = 8, Titulo = "Streets of Rage 2", ConsolaId = 3, Precio = 29.99m, Stock = 4, ImagenUrl = "/Content/images/juegos/sor2.jpg", Genero = "Beat'em up", AnioLanzamiento = 1992, Desarrollador = "SEGA", Estado = "Usado", Activo = true },
             
             // PlayStation
-            new Juego { Id = 9, Titulo = "Final Fantasy VII", ConsolaId = 4, Precio = 49.99m, Stock = 3, ImagenUrl = "/Content/images/juegos/ff7.svg", Genero = "RPG", AnioLanzamiento = 1997, Desarrollador = "Square", Estado = "BuenEstado", Activo = true, Destacado = true },
-            new Juego { Id = 10, Titulo = "Metal Gear Solid", ConsolaId = 4, Precio = 39.99m, Stock = 5, ImagenUrl = "/Content/images/juegos/mgs.svg", Genero = "Acción", AnioLanzamiento = 1998, Desarrollador = "Konami", Estado = "BuenEstado", Activo = true },
-            new Juego { Id = 11, Titulo = "Resident Evil 2", ConsolaId = 4, Precio = 44.99m, Stock = 2, ImagenUrl = "/Content/images/juegos/re2.svg", Genero = "Survival Horror", AnioLanzamiento = 1998, Desarrollador = "Capcom", Estado = "Usado", Activo = true },
+            new Juego { Id = 9, Titulo = "Final Fantasy VII", ConsolaId = 4, Precio = 49.99m, Stock = 3, ImagenUrl = "/Content/images/juegos/ff7.jpg", Genero = "RPG", AnioLanzamiento = 1997, Desarrollador = "Square", Estado = "BuenEstado", Activo = true, Destacado = true },
+            new Juego { Id = 10, Titulo = "Metal Gear Solid", ConsolaId = 4, Precio = 39.99m, Stock = 5, ImagenUrl = "/Content/images/juegos/mgs.jpg", Genero = "Acción", AnioLanzamiento = 1998, Desarrollador = "Konami", Estado = "BuenEstado", Activo = true },
+            new Juego { Id = 11, Titulo = "Resident Evil 2", ConsolaId = 4, Precio = 44.99m, Stock = 2, ImagenUrl = "/Content/images/juegos/re2.jpg", Genero = "Survival Horror", AnioLanzamiento = 1998, Desarrollador = "Capcom", Estado = "Usado", Activo = true },
             
             // Nintendo 64
-            new Juego { Id = 12, Titulo = "GoldenEye 007", ConsolaId = 5, Precio = 34.99m, Stock = 6, ImagenUrl = "/Content/images/juegos/goldeneye.svg", Genero = "FPS", AnioLanzamiento = 1997, Desarrollador = "Rare", Estado = "BuenEstado", Activo = true, Destacado = true },
-            new Juego { Id = 13, Titulo = "Super Mario 64", ConsolaId = 5, Precio = 39.99m, Stock = 4, ImagenUrl = "/Content/images/juegos/sm64.svg", Genero = "Plataformas", AnioLanzamiento = 1996, Desarrollador = "Nintendo", Estado = "BuenEstado", Activo = true },
-            new Juego { Id = 14, Titulo = "The Legend of Zelda: Ocarina of Time", ConsolaId = 5, Precio = 59.99m, Stock = 2, ImagenUrl = "/Content/images/juegos/zelda-oot.svg", Genero = "Aventura", AnioLanzamiento = 1998, Desarrollador = "Nintendo", Estado = "Nuevo", Activo = true, Destacado = true },
+            new Juego { Id = 12, Titulo = "GoldenEye 007", ConsolaId = 5, Precio = 34.99m, Stock = 6, ImagenUrl = "/Content/images/juegos/goldeneye.jpg", Genero = "FPS", AnioLanzamiento = 1997, Desarrollador = "Rare", Estado = "BuenEstado", Activo = true, Destacado = true },
+            new Juego { Id = 13, Titulo = "Super Mario 64", ConsolaId = 5, Precio = 39.99m, Stock = 4, ImagenUrl = "/Content/images/juegos/sm64.jpg", Genero = "Plataformas", AnioLanzamiento = 1996, Desarrollador = "Nintendo", Estado = "BuenEstado", Activo = true },
+            new Juego { Id = 14, Titulo = "The Legend of Zelda: Ocarina of Time", ConsolaId = 5, Precio = 59.99m, Stock = 2, ImagenUrl = "/Content/images/juegos/zelda-oot.jpg", Genero = "Aventura", AnioLanzamiento = 1998, Desarrollador = "Nintendo", Estado = "Nuevo", Activo = true, Destacado = true },
             
             // Game Boy
-            new Juego { Id = 15, Titulo = "Pokémon Red", ConsolaId = 6, Precio = 29.99m, Stock = 7, ImagenUrl = "/Content/images/juegos/pokemon-red.svg", Genero = "RPG", AnioLanzamiento = 1996, Desarrollador = "Game Freak", Estado = "BuenEstado", Activo = true, Destacado = true },
-            new Juego { Id = 16, Titulo = "Tetris", ConsolaId = 6, Precio = 14.99m, Stock = 10, ImagenUrl = "/Content/images/juegos/tetris-gb.svg", Genero = "Puzzle", AnioLanzamiento = 1989, Desarrollador = "Nintendo", Estado = "Usado", Activo = true }
+            new Juego { Id = 15, Titulo = "Pokémon Red", ConsolaId = 6, Precio = 29.99m, Stock = 7, ImagenUrl = "/Content/images/juegos/pokemon-red.jpg", Genero = "RPG", AnioLanzamiento = 1996, Desarrollador = "Game Freak", Estado = "BuenEstado", Activo = true, Destacado = true },
+            new Juego { Id = 16, Titulo = "Tetris", ConsolaId = 6, Precio = 14.99m, Stock = 10, ImagenUrl = "/Content/images/juegos/tetris-gb.jpg", Genero = "Puzzle", AnioLanzamiento = 1989, Desarrollador = "Nintendo", Estado = "Usado", Activo = true }
         };
 
         // ⚠️ ANTI-PATRÓN: Constante de paginación hardcodeada
