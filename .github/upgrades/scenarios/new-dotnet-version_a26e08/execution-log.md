@@ -141,3 +141,26 @@ Status: Complete
 
 Success - Web project builds successfully on .NET 10.
 
+
+## [2026-03-05 11:36] TASK-008: Upgrade Tier 4 (Tests)
+
+Status: Complete
+
+- **Verified**: 
+  - Project converted to SDK-style with IsTestProject=true
+  - TargetFramework updated to net10.0
+  - Microsoft.NET.Test.Sdk 17.12.0 added
+  - MSTest packages preserved (3.1.1)
+  - ProjectReference to Business configured
+  - Build succeeded with 0 errors
+  - All 4 tests passed with 0 failures
+- **Commits**: `🔄 Upgrade SoplaElCartucho.Tests to .NET 10`
+- **Files Modified**: 
+  - `SoplaElCartucho.Tests\SoplaElCartucho.Tests.csproj` (replaced)
+- **Files Deleted**: 
+  - `packages.config`
+- **Tests**: 
+  - 4 passed, 0 failed, 0 skipped
+
+Success - Tests project upgraded to .NET 10 and all tests pass.
+

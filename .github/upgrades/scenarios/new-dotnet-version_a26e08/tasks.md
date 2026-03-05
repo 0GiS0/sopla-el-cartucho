@@ -4,7 +4,7 @@
 
 This document tracks the bottom-up migration of SoplaElCartucho solution from .NET Framework 4.8 to .NET 10.0. Projects will be upgraded tier-by-tier starting from leaf dependencies (Data) and progressing to applications (Web) and tests.
 
-**Progress**: 7/8 tasks complete (88%) ![0%](https://progress-bar.xyz/88)
+**Progress**: 8/8 tasks complete (100%) ![0%](https://progress-bar.xyz/100)
 
 ---
 
@@ -86,21 +86,22 @@ This document tracks the bottom-up migration of SoplaElCartucho solution from .N
 
 ---
 
-### [▶] TASK-008: Upgrade Tier 4 (Tests)
+### [✓] TASK-008: Upgrade Tier 4 (Tests) *(Completed: 2026-03-05 10:36)*
 **References**: Plan §Tier 4: SoplaElCartucho.Tests
 
-- [▶] (1) Convert SoplaElCartucho.Tests to SDK-style project per Plan §Tier 4 §2
-- [ ] (2) Update TargetFramework to net10.0
-- [ ] (3) Add Microsoft.NET.Test.Sdk package (version 17.12.0) per Plan §Tier 4 §3
-- [ ] (4) Update ProjectReference to SoplaElCartucho.Business
-- [ ] (5) Project file converted and packages updated (**Verify**)
-- [ ] (6) Build SoplaElCartucho.Tests project
-- [ ] (7) Build succeeds with 0 errors (**Verify**)
-- [ ] (8) Run all tests in SoplaElCartucho.Tests project
-- [ ] (9) All tests pass with 0 failures (**Verify**)
-- [ ] (10) Commit changes with message: "✅ Complete .NET 10 upgrade - SoplaElCartucho.Tests migrated"
+- [✓] (1) Convert SoplaElCartucho.Tests to SDK-style project per Plan §Tier 4 §2
+- [✓] (2) Update TargetFramework to net10.0
+- [✓] (3) Add Microsoft.NET.Test.Sdk package (version 17.12.0) per Plan §Tier 4 §3
+- [✓] (4) Update ProjectReference to SoplaElCartucho.Business
+- [✓] (5) Project file converted and packages updated (**Verify**)
+- [✓] (6) Build SoplaElCartucho.Tests project
+- [✓] (7) Build succeeds with 0 errors (**Verify**)
+- [✓] (8) Run all tests in SoplaElCartucho.Tests project
+- [✓] (9) All tests pass with 0 failures (**Verify**)
+- [✓] (10) Commit changes with message: "✅ Complete .NET 10 upgrade - SoplaElCartucho.Tests migrated"
 
 ---
+
 
 
 

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,22 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// Servir archivos estáticos desde Content/ (compatibilidad con ASP.NET MVC legacy)
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "Content")),
+    RequestPath = "/Content"
+});
+
+// Servir archivos estáticos desde Scripts/ (compatibilidad con ASP.NET MVC legacy)
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "Scripts")),
+    RequestPath = "/Scripts"
+});
 
 app.UseRouting();
 
