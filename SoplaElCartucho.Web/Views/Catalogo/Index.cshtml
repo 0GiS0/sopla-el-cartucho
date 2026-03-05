@@ -1,24 +1,8 @@
-﻿@model System.Collections.Generic.List<SoplaElCartucho.Web.Models.Juego>
+@model System.Collections.Generic.List<SoplaElCartucho.Web.Models.Juego>
 @{
     ViewBag.Title = "Catálogo";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@* 
-    🎮 SOPLA EL CARTUCHO - Catálogo de Juegos Legacy
-    
-    ⚠️ ANTI-PATRONES EN ESTE ARCHIVO:
-    1. Modelo tipado pero complementado con muchos ViewBag
-    2. Paginación manual sin componente reutilizable
-    3. Filtros con querystring (debería usar formulario)
-    4. Mezcla de lógica y presentación
-    
-    📝 MIGRACIÓN:
-    - Crear CatalogoViewModel con todas las propiedades
-    - Extraer componente de paginación
-    - Usar Tag Helpers para formularios
-    - Separar filtros en partial view
-*@
 
 <div class="catalogo-container">
     <h2 style="color: #00ff00; border-bottom: 3px solid #00ff00; padding-bottom: 10px;">
@@ -30,8 +14,7 @@
         }
     </h2>
     
-    @* ⚠️ LEGACY: Filtros con tabla HTML *@
-    <div class="filtros" style="background-color: #111; border: 2px solid #333; padding: 20px; margin: 20px 0;">
+        <div class="filtros" style="background-color: #111; border: 2px solid #333; padding: 20px; margin: 20px 0;">
         <table style="width: 100%;">
             <tr>
                 <td style="width: 33%; padding: 10px;">
@@ -82,13 +65,11 @@
         </table>
     </div>
     
-    @* ⚠️ LEGACY: Contador de resultados *@
-    <p style="color: #666; font-size: 10px; margin-bottom: 20px;">
+        <p style="color: #666; font-size: 10px; margin-bottom: 20px;">
         Mostrando @Model.Count de @ViewBag.TotalJuegos juegos
     </p>
     
-    @* ⚠️ ANTI-PATRÓN: Grid de juegos con tabla HTML *@
-    @if (Model != null && Model.Count > 0)
+        @if (Model != null && Model.Count > 0)
     {
         <table style="width: 100%; border-collapse: separate; border-spacing: 15px;">
             @{
@@ -105,8 +86,7 @@
                         </div>
                     }
                     
-                    @* ⚠️ LEGACY: Imagen de juego con fallback a emoji *@
-                    @if (!string.IsNullOrEmpty(juego.ImagenUrl))
+                                        @if (!string.IsNullOrEmpty(juego.ImagenUrl))
                     {
                         <img src="@juego.ImagenUrl" alt="@juego.Titulo" style="width: 120px; height: 120px; object-fit: contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
                         <div style="width: 120px; height: 120px; background-color: #222; margin: 0 auto; display: none; align-items: center; justify-content: center; font-size: 40px; border: 2px solid #333;">🎮</div>
@@ -150,8 +130,7 @@
                     @:</tr><tr>
                 }
             }
-            @* ⚠️ LEGACY: Rellenar celdas vacías *@
-            @while (itemCount % 4 != 0)
+                        @while (itemCount % 4 != 0)
             {
                 <td style="width: 25%;"></td>
                 itemCount++;
@@ -170,8 +149,7 @@
         </div>
     }
     
-    @* ⚠️ LEGACY: Paginación manual con lógica en vista *@
-    @if ((int)ViewBag.TotalPaginas > 1)
+        @if ((int)ViewBag.TotalPaginas > 1)
     {
         <div class="paginacion" style="text-align: center; margin-top: 30px;">
             @{
@@ -211,13 +189,11 @@
 
 @section Scripts {
     <script type="text/javascript">
-        // ⚠️ LEGACY: JavaScript con función global
         function aplicarFiltros() {
             var consolaId = document.getElementById('filtroConsola').value;
             var genero = document.getElementById('filtroGenero').value;
             var orden = document.getElementById('filtroOrden').value;
             
-            // ⚠️ ANTI-PATRÓN: Construcción manual de URL
             var url = '@Url.Action("Index")';
             var params = [];
             

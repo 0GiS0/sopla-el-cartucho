@@ -1,27 +1,12 @@
-﻿@model SoplaElCartucho.Web.Models.Juego
+@model SoplaElCartucho.Web.Models.Juego
 @{
     ViewBag.Title = Model.Titulo;
     Layout = "~/Views/Shared/_Layout.cshtml";
     var consola = ViewBag.Consola as SoplaElCartucho.Web.Models.Consola;
 }
 
-@* 
-    🎮 SOPLA EL CARTUCHO - Detalle de Juego Legacy
-    
-    ⚠️ ANTI-PATRONES EN ESTE ARCHIVO:
-    1. Formulario POST sin ajax (recarga toda la página)
-    2. Estilos inline mezclados
-    3. ViewBag para datos relacionados
-    
-    📝 MIGRACIÓN:
-    - Usar AJAX para añadir al carrito
-    - Crear DetalleJuegoViewModel con todo incluido
-    - Extraer estilos a CSS
-*@
-
 <div class="detalle-juego">
-    @* Breadcrumb básico *@
-    <p style="font-size: 8px; color: #666; margin-bottom: 20px;">
+        <p style="font-size: 8px; color: #666; margin-bottom: 20px;">
         <a href="@Url.Action("Index", "Home")">Inicio</a> → 
         <a href="@Url.Action("Index", "Catalogo")">Catálogo</a> → 
         @if (consola != null)
@@ -34,10 +19,8 @@
     
     <table style="width: 100%; background-color: #111; border: 2px solid #333;">
         <tr>
-            @* Imagen del juego *@
-            <td style="width: 40%; padding: 30px; text-align: center; vertical-align: top;">
-                @* ⚠️ LEGACY: Imagen de juego con fallback a emoji *@
-                @if (!string.IsNullOrEmpty(Model.ImagenUrl))
+                        <td style="width: 40%; padding: 30px; text-align: center; vertical-align: top;">
+                                @if (!string.IsNullOrEmpty(Model.ImagenUrl))
                 {
                     <img src="@Model.ImagenUrl" alt="@Model.Titulo" style="width: 250px; height: 250px; object-fit: contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
                     <div style="width: 250px; height: 250px; background-color: #222; margin: 0 auto; display: none; align-items: center; justify-content: center; font-size: 80px; border: 4px solid #333;">🎮</div>
@@ -57,8 +40,7 @@
                 }
             </td>
             
-            @* Información del juego *@
-            <td style="padding: 30px; vertical-align: top;">
+                        <td style="padding: 30px; vertical-align: top;">
                 <h1 style="color: #00ff00; font-size: 18px; margin: 0 0 20px 0; text-shadow: 2px 2px 0 #003300;">
                     @Model.Titulo
                 </h1>
@@ -106,8 +88,7 @@
                     </tr>
                 </table>
                 
-                @* Precio *@
-                <div style="background-color: #001100; border: 2px solid #00ff00; padding: 20px; margin: 20px 0;">
+                                <div style="background-color: #001100; border: 2px solid #00ff00; padding: 20px; margin: 20px 0;">
                     <span style="font-size: 24px; color: #00ff00;">
                         @Model.Precio.ToString("C")
                     </span>
@@ -116,15 +97,13 @@
                     </span>
                 </div>
                 
-                @* Stock y botón de compra *@
-                @if (Model.Stock > 0)
+                                @if (Model.Stock > 0)
                 {
                     <p style="color: #00ff00; font-size: 10px; margin-bottom: 15px;">
                         ✓ @Model.Stock unidades disponibles
                     </p>
                     
-                    @* ⚠️ LEGACY: Formulario POST tradicional *@
-                    @using (Html.BeginForm("Agregar", "Carrito", FormMethod.Post))
+                                        @using (Html.BeginForm("Agregar", "Carrito", FormMethod.Post))
                     {
                         <input type="hidden" name="juegoId" value="@Model.Id" />
                         
@@ -156,8 +135,7 @@
         </tr>
     </table>
     
-    @* Descripción *@
-    @if (!string.IsNullOrEmpty(Model.Descripcion))
+        @if (!string.IsNullOrEmpty(Model.Descripcion))
     {
         <div style="background-color: #111; border: 2px solid #333; padding: 20px; margin-top: 20px;">
             <h3 style="color: #ff00ff; font-size: 12px; margin-bottom: 15px;">📝 DESCRIPCIÓN</h3>
@@ -167,8 +145,7 @@
         </div>
     }
     
-    @* Juegos relacionados *@
-    @{
+        @{
         var relacionados = ViewBag.JuegosRelacionados as System.Collections.Generic.List<SoplaElCartucho.Web.Models.Juego>;
     }
     @if (relacionados != null && relacionados.Count > 0)
@@ -183,8 +160,7 @@
                     @foreach (var relacionado in relacionados)
                     {
                         <td style="background-color: #111; border: 2px solid #333; padding: 15px; text-align: center; width: 25%;">
-                            @* ⚠️ LEGACY: Imagen de juego relacionado con fallback a emoji *@
-                            @if (!string.IsNullOrEmpty(relacionado.ImagenUrl))
+                                                        @if (!string.IsNullOrEmpty(relacionado.ImagenUrl))
                             {
                                 <img src="@relacionado.ImagenUrl" alt="@relacionado.Titulo" style="width: 80px; height: 80px; object-fit: contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
                                 <div style="width: 80px; height: 80px; background-color: #222; margin: 0 auto; display: none; align-items: center; justify-content: center; font-size: 30px;">🎮</div>
@@ -204,8 +180,7 @@
         </div>
     }
     
-    @* Botón volver *@
-    <div style="margin-top: 30px;">
+        <div style="margin-top: 30px;">
         <a href="@Url.Action("Index", "Catalogo")" style="font-size: 10px;">
             ◀ Volver al catálogo
         </a>

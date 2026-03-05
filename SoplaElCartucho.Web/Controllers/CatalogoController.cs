@@ -6,24 +6,8 @@ using SoplaElCartucho.Web.Models;
 
 namespace SoplaElCartucho.Web.Controllers
 {
-    /*
-     * 🎮 SOPLA EL CARTUCHO - CatalogoController Legacy
-     * 
-     * ⚠️ ANTI-PATRONES EN ESTE ARCHIVO:
-     * 1. Datos estáticos en memoria (debería usar base de datos)
-     * 2. Sin caché apropiado (output cache manual)
-     * 3. Paginación manual sin patrón establecido
-     * 4. Filtros mediante múltiples parámetros string
-     * 
-     * 📝 MIGRACIÓN:
-     * - Inyectar ICatalogoService
-     * - Usar IMemoryCache o Redis para caché
-     * - Implementar paginación con Skip/Take en EF Core
-     * - Usar objetos Filter/Query para búsquedas complejas
-     */
     public class CatalogoController : Controller
     {
-        // ⚠️ ANTI-PATRÓN: Datos estáticos - NO ESCALA, pérdida de datos en reinicio
         private static List<Consola> _consolas = new List<Consola>
         {
             new Consola { Id = 1, Nombre = "NES", Fabricante = "Nintendo", AnioLanzamiento = 1983, ImagenUrl = "/Content/images/consolas/nes.svg", Activa = true, Orden = 1 },
@@ -65,16 +49,12 @@ namespace SoplaElCartucho.Web.Controllers
             new Juego { Id = 16, Titulo = "Tetris", ConsolaId = 6, Precio = 14.99m, Stock = 10, ImagenUrl = "/Content/images/juegos/tetris-gb.jpg", Genero = "Puzzle", AnioLanzamiento = 1989, Desarrollador = "Nintendo", Estado = "Usado", Activo = true }
         };
 
-        // ⚠️ ANTI-PATRÓN: Constante de paginación hardcodeada
         private const int ITEMS_POR_PAGINA = 8;
 
-        // GET: /Catalogo
         public ActionResult Index(int? consolaId, string genero, string orden, int? pagina)
         {
-            // ⚠️ LEGACY: Filtrado manual sin LINQ to Entities
             var juegos = _juegos.Where(j => j.Activo);
 
-            // ⚠️ ANTI-PATRÓN: Filtros opcionales con muchos ifs
             if (consolaId.HasValue)
             {
                 juegos = juegos.Where(j => j.ConsolaId == consolaId.Value);
@@ -83,11 +63,9 @@ namespace SoplaElCartucho.Web.Controllers
 
             if (!string.IsNullOrEmpty(genero))
             {
-                // ⚠️ ANTI-PATRÓN: Comparación case-sensitive
                 juegos = juegos.Where(j => j.Genero == genero);
             }
 
-            // ⚠️ LEGACY: Ordenamiento con switch/case
             switch (orden)
             {
                 case "precio-asc":
@@ -103,12 +81,10 @@ namespace SoplaElCartucho.Web.Controllers
                     juegos = juegos.OrderByDescending(j => j.AnioLanzamiento);
                     break;
                 default:
-                    // ⚠️ ANTI-PATRÓN: Destacados primero, luego aleatorio (no determinístico)
                     juegos = juegos.OrderByDescending(j => j.Destacado).ThenBy(j => j.Titulo);
                     break;
             }
 
-            // ⚠️ LEGACY: Paginación manual
             var paginaActual = pagina ?? 1;
             var totalJuegos = juegos.Count();
             var totalPaginas = (int)Math.Ceiling((double)totalJuegos / ITEMS_POR_PAGINA);
@@ -118,7 +94,6 @@ namespace SoplaElCartucho.Web.Controllers
                 .Take(ITEMS_POR_PAGINA)
                 .ToList();
 
-            // ⚠️ ANTI-PATRÓN: Muchos ViewBag para datos de paginación y filtros
             ViewBag.Consolas = _consolas.Where(c => c.Activa).OrderBy(c => c.Orden).ToList();
             ViewBag.Generos = _juegos.Select(j => j.Genero).Distinct().OrderBy(g => g).ToList();
             ViewBag.ConsolaId = consolaId;
@@ -128,41 +103,32 @@ namespace SoplaElCartucho.Web.Controllers
             ViewBag.TotalPaginas = totalPaginas;
             ViewBag.TotalJuegos = totalJuegos;
 
-            // ⚠️ LEGACY: Pasar lista sin ViewModel tipado
             return View(juegosPaginados);
         }
 
-        // GET: /Catalogo/PorConsola/1
         public ActionResult PorConsola(int consolaId)
         {
-            // ⚠️ ANTI-PATRÓN: Redirigir en lugar de cargar directamente
             return RedirectToAction("Index", new { consolaId = consolaId });
         }
 
-        // GET: /Juego/1/super-mario-bros-3
         public ActionResult Detalle(int id, string slug)
         {
-            // ⚠️ LEGACY: Búsqueda lineal sin índice
             var juego = _juegos.FirstOrDefault(j => j.Id == id && j.Activo);
             
             if (juego == null)
             {
-                // ⚠️ ANTI-PATRÓN: Redirección sin mensaje de error
                 return RedirectToAction("Index");
             }
 
-            // ⚠️ SEO LEGACY: Verificar slug y redirigir si es incorrecto
             var slugCorrecto = juego.ObtenerSlug();
             if (!string.IsNullOrEmpty(slug) && slug != slugCorrecto)
             {
                 return RedirectToAction("Detalle", new { id = id, slug = slugCorrecto });
             }
 
-            // ⚠️ ANTI-PATRÓN: Obtener consola en controlador
             var consola = _consolas.FirstOrDefault(c => c.Id == juego.ConsolaId);
             ViewBag.Consola = consola;
 
-            // ⚠️ LEGACY: Juegos relacionados - lógica en controlador
             var juegosRelacionados = _juegos
                 .Where(j => j.Id != juego.Id && j.Activo && 
                        (j.ConsolaId == juego.ConsolaId || j.Genero == juego.Genero))
@@ -173,14 +139,12 @@ namespace SoplaElCartucho.Web.Controllers
             return View(juego);
         }
 
-        // ⚠️ ANTI-PATRÓN: Acción AJAX sin validación de antiforgery
         [HttpPost]
         public ActionResult ObtenerStock(int juegoId)
         {
             var juego = _juegos.FirstOrDefault(j => j.Id == juegoId);
             if (juego == null)
             {
-                // ⚠️ LEGACY: JSON manual sin JsonResult tipado
                 return Json(new { success = false, mensaje = "Juego no encontrado" });
             }
 
