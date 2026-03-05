@@ -4,24 +4,24 @@
 
 This document tracks the bottom-up migration of SoplaElCartucho solution from .NET Framework 4.8 to .NET 10.0. Projects will be upgraded tier-by-tier starting from leaf dependencies (Data) and progressing to applications (Web) and tests.
 
-**Progress**: 0/8 tasks complete (0%) ![0%](https://progress-bar.xyz/0)
+**Progress**: 1/8 tasks complete (12%) ![0%](https://progress-bar.xyz/12)
 
 ---
 
 ## Tasks
 
-### [▶] TASK-001: Verify prerequisites
+### [✓] TASK-001: Verify prerequisites *(Completed: 2026-03-05 09:59)*
 **References**: Plan §Prerequisites
 
-- [▶] (1) Verify .NET 10 SDK installed per Plan §Prerequisites
-- [ ] (2) .NET 10 SDK available (**Verify**)
+- [✓] (1) Verify .NET 10 SDK installed per Plan §Prerequisites
+- [✓] (2) .NET 10 SDK available (**Verify**)
 
 ---
 
-### [ ] TASK-002: Upgrade Tier 1 (Data)
+### [▶] TASK-002: Upgrade Tier 1 (Data)
 **References**: Plan §Tier 1: SoplaElCartucho.Data
 
-- [ ] (1) Convert SoplaElCartucho.Data to SDK-style project per Plan §Tier 1 §2
+- [▶] (1) Convert SoplaElCartucho.Data to SDK-style project per Plan §Tier 1 §2
 - [ ] (2) Update TargetFramework to net10.0
 - [ ] (3) Project file converted and TFM updated (**Verify**)
 - [ ] (4) Build SoplaElCartucho.Data project
@@ -101,3 +101,5 @@ This document tracks the bottom-up migration of SoplaElCartucho solution from .N
 - [ ] (10) Commit changes with message: "✅ Complete .NET 10 upgrade - SoplaElCartucho.Tests migrated"
 
 ---
+
+
