@@ -5,24 +5,8 @@ using SoplaElCartucho.Web.Models;
 
 namespace SoplaElCartucho.Web.Controllers
 {
-    /*
-     * 🎮 SOPLA EL CARTUCHO - HomeController Legacy
-     * 
-     * ⚠️ ANTI-PATRONES EN ESTE ARCHIVO:
-     * 1. Datos hardcodeados en controlador (usar servicio)
-     * 2. ViewBag/ViewData para pasar datos (usar ViewModels fuertemente tipados)
-     * 3. Sin inyección de dependencias (instanciación directa)
-     * 4. Controlador "gordo" con lógica de negocio
-     * 
-     * 📝 MIGRACIÓN:
-     * - Mover datos a servicios inyectados
-     * - Crear ViewModels específicos para cada vista
-     * - Usar constructor injection
-     * - Adelgazar controlador (thin controller, fat service)
-     */
     public class HomeController : Controller
     {
-        // ⚠️ ANTI-PATRÓN: Datos hardcodeados - debería venir de base de datos/servicio
         private static readonly List<Consola> _consolasDestacadas = new List<Consola>
         {
             new Consola { Id = 1, Nombre = "NES", Fabricante = "Nintendo", AnioLanzamiento = 1983, ImagenUrl = "/Content/images/consolas/nes.svg" },
@@ -41,17 +25,13 @@ namespace SoplaElCartucho.Web.Controllers
             new Juego { Id = 4, Titulo = "Final Fantasy VII", ConsolaId = 4, Precio = 49.99m, ImagenUrl = "/Content/images/juegos/ff7.jpg", Genero = "RPG", AnioLanzamiento = 1997, Desarrollador = "Square", Destacado = true }
         };
 
-        // GET: /
         public ActionResult Index()
         {
-            // ⚠️ ANTI-PATRÓN: Múltiples ViewBag/ViewData (difícil de mantener)
-            // 📝 MIGRACIÓN: Crear HomeIndexViewModel con todas las propiedades
             ViewBag.Titulo = "🎮 Sopla el Cartucho";
             ViewBag.Subtitulo = "Tu tienda de videojuegos retro favorita";
             ViewData["ConsolasDestacadas"] = _consolasDestacadas;
             ViewData["JuegosDestacados"] = _juegosDestacados;
             
-            // ⚠️ ANTI-PATRÓN: Mensaje basado en hora del día - lógica en controlador
             var hora = DateTime.Now.Hour;
             if (hora >= 6 && hora < 12)
                 ViewBag.Saludo = "¡Buenos días, gamer! 🌅";
@@ -60,17 +40,14 @@ namespace SoplaElCartucho.Web.Controllers
             else
                 ViewBag.Saludo = "¡Buenas noches, gamer! 🌙 Es hora de jugar...";
 
-            // ⚠️ LEGACY: Obtener cantidad de items en carrito de Session
             var carritoCount = Session["CarritoCount"] ?? 0;
             ViewBag.CarritoCount = carritoCount;
 
             return View();
         }
 
-        // GET: /Home/About
         public ActionResult About()
         {
-            // ⚠️ ANTI-PATRÓN: Texto estático en controlador
             ViewBag.Historia = @"
                 🎮 SOPLA EL CARTUCHO nació en 2023 de la nostalgia de dos amigos 
                 que crecieron jugando a la NES y la Mega Drive.
@@ -86,10 +63,8 @@ namespace SoplaElCartucho.Web.Controllers
             return View();
         }
 
-        // GET: /Home/Contact
         public ActionResult Contact()
         {
-            // ⚠️ ANTI-PATRÓN: Información de contacto hardcodeada
             ViewBag.Email = "soplaelcartucho@example.com";
             ViewBag.Telefono = "+34 666 123 456";
             ViewBag.Direccion = "Calle Pixel 8, Bit City";
@@ -98,7 +73,6 @@ namespace SoplaElCartucho.Web.Controllers
             return View();
         }
 
-        // ⚠️ ANTI-PATRÓN: Acción para búsqueda con lógica en controlador
         [HttpGet]
         public ActionResult Search(string q)
         {
@@ -107,11 +81,9 @@ namespace SoplaElCartucho.Web.Controllers
                 return RedirectToAction("Index");
             }
 
-            // ⚠️ LEGACY: Búsqueda básica sin índices ni paginación
             var resultados = new List<Juego>();
             foreach (var juego in _juegosDestacados)
             {
-                // ⚠️ ANTI-PATRÓN: Contains sin StringComparison (cultura implícita)
                 if (juego.Titulo.ToLower().Contains(q.ToLower()))
                 {
                     resultados.Add(juego);

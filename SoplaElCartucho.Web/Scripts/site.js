@@ -1,34 +1,12 @@
-/*
- * 🎮 SOPLA EL CARTUCHO - JavaScript Legacy
- * 
- * ⚠️ ANTI-PATRONES EN ESTE ARCHIVO:
- * 1. jQuery 1.6.4 (muy antigua)
- * 2. Código "spaghetti" sin módulos
- * 3. Variables globales
- * 4. Sin manejo de errores apropiado
- * 5. Sin bundling/minificación
- * 
- * 📝 MIGRACIÓN:
- * - Actualizar a vanilla JS moderno (ES6+)
- * - Usar módulos ES6 o bundler (webpack/vite)
- * - Implementar patrón módulo o clases
- * - Añadir TypeScript para tipado
- */
-
-// ⚠️ ANTI-PATRÓN: Variables globales
 var SoplaElCartucho = SoplaElCartucho || {};
 
-// ⚠️ LEGACY: Document ready con jQuery antigua
 $(document).ready(function() {
     console.log('🎮 ¡Sopla el Cartucho iniciado!');
     console.log('💨 Framework: jQuery ' + $.fn.jquery);
-    console.log('⚠️  Este es un proyecto LEGACY para demostración');
     
-    // Inicializar componentes
     SoplaElCartucho.init();
 });
 
-// ⚠️ ANTI-PATRÓN: Objeto global con métodos
 SoplaElCartucho = {
     init: function() {
         this.initCarrito();
@@ -37,17 +15,14 @@ SoplaElCartucho = {
         this.initEasterEggs();
     },
     
-    // ⚠️ LEGACY: Manejo de carrito con AJAX básico
     initCarrito: function() {
         var self = this;
         
-        // Actualizar badge del carrito cada 30 segundos
         setInterval(function() {
             self.actualizarBadgeCarrito();
         }, 30000);
     },
     
-    // ⚠️ ANTI-PATRÓN: AJAX sin manejo de errores apropiado
     actualizarBadgeCarrito: function() {
         $.ajax({
             url: '/Carrito/ObtenerCantidad',
@@ -58,7 +33,6 @@ SoplaElCartucho = {
                     var badge = $('.carrito-badge');
                     if (data.cantidad > 0) {
                         if (badge.length === 0) {
-                            // ⚠️ ANTI-PATRÓN: Manipulación DOM directa
                             $('a[href*="Carrito"]').append('<span class="carrito-badge">' + data.cantidad + '</span>');
                         } else {
                             badge.text(data.cantidad);
@@ -69,29 +43,24 @@ SoplaElCartucho = {
                 }
             },
             error: function() {
-                // ⚠️ ANTI-PATRÓN: Silenciar errores
                 console.log('Error actualizando carrito');
             }
         });
     },
     
-    // Animaciones retro
     initAnimaciones: function() {
-        // ⚠️ LEGACY: Efecto de parpadeo en elementos
         setInterval(function() {
             $('.blink').each(function() {
                 $(this).css('opacity', Math.random() > 0.1 ? 1 : 0.7);
             });
         }, 150);
         
-        // Efecto de "typing" en textos
         $('.typing-effect').each(function() {
             var text = $(this).text();
             var $el = $(this);
             $el.text('');
             var i = 0;
             
-            // ⚠️ ANTI-PATRÓN: setInterval sin cleanup
             var interval = setInterval(function() {
                 if (i < text.length) {
                     $el.text($el.text() + text.charAt(i));
@@ -103,9 +72,7 @@ SoplaElCartucho = {
         });
     },
     
-    // ⚠️ LEGACY: Validación de formularios básica
     initFormularios: function() {
-        // Prevenir doble submit
         $('form').on('submit', function() {
             var $form = $(this);
             var $btn = $form.find('button[type="submit"]');
@@ -117,14 +84,12 @@ SoplaElCartucho = {
             $form.data('submitting', true);
             $btn.prop('disabled', true).text('CARGANDO...');
             
-            // ⚠️ ANTI-PATRÓN: Timeout fijo para re-habilitar
             setTimeout(function() {
                 $form.data('submitting', false);
                 $btn.prop('disabled', false);
             }, 5000);
         });
         
-        // ⚠️ LEGACY: Validación inline
         $('input[required]').on('blur', function() {
             var $input = $(this);
             if (!$input.val()) {
@@ -135,12 +100,10 @@ SoplaElCartucho = {
         });
     },
     
-    // Easter eggs para hacer la demo más divertida
     initEasterEggs: function() {
         var konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
         var konamiIndex = 0;
         
-        // ⚠️ LEGACY: Detector del código Konami
         $(document).on('keydown', function(e) {
             if (e.keyCode === konamiCode[konamiIndex]) {
                 konamiIndex++;
@@ -153,32 +116,27 @@ SoplaElCartucho = {
             }
         });
         
-        // Click secreto en el logo
         var clickCount = 0;
         $('.header h1').on('click', function() {
             clickCount++;
             if (clickCount >= 5) {
-                alert('🎮 ¡Has encontrado un easter egg!\n\n¡Gracias por explorar Sopla el Cartucho!\n\nEste es un proyecto LEGACY para demostrar migración de .NET Framework a .NET Core.');
+                alert('🎮 ¡Has encontrado un easter egg!\n\n¡Gracias por explorar Sopla el Cartucho!');
                 clickCount = 0;
             }
         });
     },
     
-    // ⚠️ ANTI-PATRÓN: Función que modifica estilos globales
     activarModoRetro: function() {
         console.log('🎮 ¡CÓDIGO KONAMI ACTIVADO! 🎮');
         
-        // Añadir más scanlines
         $('body').css({
             'background-image': 'repeating-linear-gradient(0deg, rgba(0,255,0,0.03), rgba(0,255,0,0.03) 1px, transparent 1px, transparent 2px)',
             'animation': 'crt-flicker 0.15s infinite'
         });
         
-        // Añadir efecto de ruido
         var style = $('<style>@keyframes crt-flicker { 0% { opacity: 0.97; } 50% { opacity: 1; } 100% { opacity: 0.98; } }</style>');
         $('head').append(style);
         
-        // Mensaje en consola con arte ASCII
         console.log('%c' + 
             '   _____ ____  _____  _               \n' +
             '  / ____/ __ \\|  __ \\| |        /\\    \n' +
@@ -193,13 +151,10 @@ SoplaElCartucho = {
         alert('🎮 ¡MODO RETRO ACTIVADO!\n\n↑ ↑ ↓ ↓ ← → ← → B A\n\n¡Has desbloqueado el modo nostálgico!');
     },
     
-    // ⚠️ LEGACY: Función helper para formatear moneda
     formatearPrecio: function(precio) {
-        // ⚠️ ANTI-PATRÓN: Formato manual de moneda
         return precio.toFixed(2).replace('.', ',') + ' €';
     },
     
-    // ⚠️ LEGACY: Mostrar notificación toast básica
     mostrarNotificacion: function(mensaje, tipo) {
         tipo = tipo || 'success';
         var bgColor = tipo === 'success' ? '#002200' : '#220000';
@@ -223,7 +178,6 @@ SoplaElCartucho = {
             .appendTo('body')
             .animate({ opacity: 1 }, 200);
         
-        // ⚠️ ANTI-PATRÓN: Eliminar después de timeout fijo
         setTimeout(function() {
             $toast.animate({ opacity: 0 }, 200, function() {
                 $(this).remove();
@@ -232,7 +186,6 @@ SoplaElCartucho = {
     }
 };
 
-// ⚠️ ANTI-PATRÓN: Funciones globales sueltas
 function confirmarAccion(mensaje) {
     return confirm(mensaje);
 }
@@ -241,7 +194,6 @@ function irAPagina(url) {
     window.location.href = url;
 }
 
-// ⚠️ LEGACY: Polyfill para console.log en IE antiguo
 if (!window.console) {
     window.console = {
         log: function() {},

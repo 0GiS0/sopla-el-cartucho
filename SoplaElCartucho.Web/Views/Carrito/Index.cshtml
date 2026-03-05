@@ -1,18 +1,8 @@
-﻿@model System.Collections.Generic.List<SoplaElCartucho.Web.Models.CarritoItem>
+@model System.Collections.Generic.List<SoplaElCartucho.Web.Models.CarritoItem>
 @{
     ViewBag.Title = "Mi Carrito";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@* 
-    🎮 SOPLA EL CARTUCHO - Carrito de Compras Legacy
-    
-    ⚠️ ANTI-PATRONES:
-    1. Tabla HTML para layout
-    2. Formularios múltiples (uno por item)
-    3. Sin actualización AJAX
-    4. Cálculos en ViewBag
-*@
 
 <div class="carrito-container">
     <h2 style="color: #00ff00; border-bottom: 3px solid #00ff00; padding-bottom: 10px;">
@@ -54,8 +44,7 @@
                             @item.PrecioUnitario.ToString("C")
                         </td>
                         <td style="padding: 20px; text-align: center;">
-                            @* ⚠️ LEGACY: Formulario individual por item *@
-                            @using (Html.BeginForm("Actualizar", "Carrito", FormMethod.Post, new { style = "display: inline;" }))
+                                                        @using (Html.BeginForm("Actualizar", "Carrito", FormMethod.Post, new { style = "display: inline;" }))
                             {
                                 <input type="hidden" name="juegoId" value="@item.JuegoId" />
                                 <select name="cantidad" onchange="this.form.submit()" style="padding: 5px; font-family: 'Press Start 2P'; font-size: 8px; background-color: #222; color: #fff; border: 2px solid #333;">
@@ -84,8 +73,7 @@
             </tbody>
         </table>
         
-        @* Resumen del pedido *@
-        <table style="width: 100%; margin-top: 30px;">
+                <table style="width: 100%; margin-top: 30px;">
             <tr>
                 <td style="width: 60%;"></td>
                 <td style="background-color: #111; border: 2px solid #333; padding: 20px;">
@@ -139,8 +127,7 @@
             </tr>
         </table>
         
-        @* Botones adicionales *@
-        <div style="margin-top: 20px; display: flex; justify-content: space-between;">
+                <div style="margin-top: 20px; display: flex; justify-content: space-between;">
             <a href="@Url.Action("Index", "Catalogo")" style="font-size: 10px;">
                 ◀ Seguir comprando
             </a>

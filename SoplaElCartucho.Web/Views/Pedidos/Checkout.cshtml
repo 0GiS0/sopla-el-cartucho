@@ -57,18 +57,14 @@
                         </div>
                     </div>
                     
-                    @* Método de pago (simulado) *@
+                    @* Método de pago *@
                     <div style="background-color: #111; border: 2px solid #333; padding: 20px; margin-top: 20px;">
                         <h3 style="color: #ff00ff; font-size: 12px; margin-bottom: 20px;">💳 MÉTODO DE PAGO</h3>
                         
-                        <p style="color: #666; font-size: 10px; margin-bottom: 15px;">
-                            ⚠️ Demo: El pago se simula. En producción integraríamos Stripe/PayPal.
-                        </p>
-                        
                         <div style="padding: 15px; background-color: #001100; border: 2px solid #00ff00;">
                             <label style="color: #00ff00; font-size: 10px; cursor: pointer;">
-                                <input type="radio" name="metodoPago" value="demo" checked style="margin-right: 10px;" />
-                                💰 Pago Simulado (Demo)
+                                <input type="radio" name="metodoPago" value="tarjeta" checked style="margin-right: 10px;" />
+                                💳 Pago con tarjeta
                             </label>
                         </div>
                     </div>
@@ -119,7 +115,7 @@
                         </button>
                         
                         <p style="font-size: 8px; color: #444; text-align: center; margin-top: 15px;">
-                            🔒 Pago 100% seguro (simulado)
+                            🔒 Pago 100% seguro
                         </p>
                     </div>
                 </td>
