@@ -121,3 +121,23 @@ Status: Complete
 
 Success - All controllers and views updated to ASP.NET Core.
 
+
+## [2026-03-05 11:32] TASK-007: Build and validate Tier 3 (Web)
+
+Status: Complete
+
+- **Verified**: 
+  - Build succeeded with 0 errors
+  - Fixed Razor option selected attribute syntax for ASP.NET Core
+  - Fixed Html.BeginForm usage in Pedidos/Index.cshtml
+- **Commits**: `🔄 Upgrade SoplaElCartucho.Web to .NET 10`
+- **Files Modified**: 
+  - `Views\Catalogo\Index.cshtml` - fixed option selected syntax
+  - `Views\Carrito\Index.cshtml` - fixed option selected syntax  
+  - `Views\Pedidos\Index.cshtml` - fixed Html.BeginForm → form tag helper
+- **Errors Fixed**: 
+  - RZ1031: Tag helper 'option' C# in attribute declaration area (6 occurrences)
+  - CS7036: BeginForm missing htmlAttributes parameter (1 occurrence)
+
+Success - Web project builds successfully on .NET 10.
+
