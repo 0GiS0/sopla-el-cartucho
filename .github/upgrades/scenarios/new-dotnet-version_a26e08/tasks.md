@@ -4,7 +4,7 @@
 
 This document tracks the bottom-up migration of SoplaElCartucho solution from .NET Framework 4.8 to .NET 10.0. Projects will be upgraded tier-by-tier starting from leaf dependencies (Data) and progressing to applications (Web) and tests.
 
-**Progress**: 1/8 tasks complete (12%) ![0%](https://progress-bar.xyz/12)
+**Progress**: 2/8 tasks complete (25%) ![0%](https://progress-bar.xyz/25)
 
 ---
 
@@ -18,22 +18,22 @@ This document tracks the bottom-up migration of SoplaElCartucho solution from .N
 
 ---
 
-### [▶] TASK-002: Upgrade Tier 1 (Data)
+### [✓] TASK-002: Upgrade Tier 1 (Data) *(Completed: 2026-03-05 10:20)*
 **References**: Plan §Tier 1: SoplaElCartucho.Data
 
-- [▶] (1) Convert SoplaElCartucho.Data to SDK-style project per Plan §Tier 1 §2
-- [ ] (2) Update TargetFramework to net10.0
-- [ ] (3) Project file converted and TFM updated (**Verify**)
-- [ ] (4) Build SoplaElCartucho.Data project
-- [ ] (5) Build succeeds with 0 errors (**Verify**)
-- [ ] (6) Commit changes with message: "🔄 Upgrade SoplaElCartucho.Data to .NET 10"
+- [✓] (1) Convert SoplaElCartucho.Data to SDK-style project per Plan §Tier 1 §2
+- [✓] (2) Update TargetFramework to net10.0
+- [✓] (3) Project file converted and TFM updated (**Verify**)
+- [✓] (4) Build SoplaElCartucho.Data project
+- [✓] (5) Build succeeds with 0 errors (**Verify**)
+- [✓] (6) Commit changes with message: "🔄 Upgrade SoplaElCartucho.Data to .NET 10"
 
 ---
 
-### [ ] TASK-003: Upgrade Tier 2 (Business)
+### [▶] TASK-003: Upgrade Tier 2 (Business)
 **References**: Plan §Tier 2: SoplaElCartucho.Business
 
-- [ ] (1) Convert SoplaElCartucho.Business to SDK-style project per Plan §Tier 2 §2
+- [▶] (1) Convert SoplaElCartucho.Business to SDK-style project per Plan §Tier 2 §2
 - [ ] (2) Update TargetFramework to net10.0
 - [ ] (3) Update ProjectReference to SoplaElCartucho.Data
 - [ ] (4) Project file converted and references updated (**Verify**)
@@ -101,5 +101,7 @@ This document tracks the bottom-up migration of SoplaElCartucho solution from .N
 - [ ] (10) Commit changes with message: "✅ Complete .NET 10 upgrade - SoplaElCartucho.Tests migrated"
 
 ---
+
+
 
 
