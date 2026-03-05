@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
-using System.Web.Security;
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using SoplaElCartucho.Web.Models;
 
 namespace SoplaElCartucho.Web.Controllers
@@ -13,9 +15,9 @@ namespace SoplaElCartucho.Web.Controllers
         private static List<Pedido> _pedidos = new List<Pedido>();
         private static int _ultimoId = 0;
 
-        public ActionResult Index()
+        public IActionResult Index()
         {
-            var nombreUsuario = User.Identity.Name;
+            var nombreUsuario = User.Identity?.Name ?? "";
             
             var misPedidos = _pedidos
                 .Where(p => p.NombreUsuario == nombreUsuario)
@@ -25,7 +27,7 @@ namespace SoplaElCartucho.Web.Controllers
             return View(misPedidos);
         }
 
-        public ActionResult Detalle(int id)
+        public IActionResult Detalle(int id)
         {
             var pedido = _pedidos.FirstOrDefault(p => p.Id == id);
             
@@ -35,7 +37,7 @@ namespace SoplaElCartucho.Web.Controllers
                 return RedirectToAction("Index");
             }
 
-            if (pedido.NombreUsuario != User.Identity.Name && !User.IsInRole("Admin"))
+            if (pedido.NombreUsuario != User.Identity?.Name && !User.IsInRole("Admin"))
             {
                 TempData["Error"] = "No puedes ver pedidos de otros usuarios. ¡Eso no está bien! 🚫";
                 return RedirectToAction("Index");
@@ -44,11 +46,14 @@ namespace SoplaElCartucho.Web.Controllers
             return View(pedido);
         }
 
-        public ActionResult Checkout()
+        public IActionResult Checkout()
         {
-            var carrito = Session["Carrito"] as List<CarritoItem>;
+            var carritoJson = HttpContext.Session.GetString("Carrito");
+            var carrito = string.IsNullOrEmpty(carritoJson) 
+                ? new List<CarritoItem>() 
+                : JsonSerializer.Deserialize<List<CarritoItem>>(carritoJson) ?? new List<CarritoItem>();
             
-            if (carrito == null || carrito.Count == 0)
+            if (carrito.Count == 0)
             {
                 TempData["Error"] = "Tu carrito está vacío. ¡Añade algunos juegos primero! 🎮";
                 return RedirectToAction("Index", "Catalogo");
@@ -73,7 +78,7 @@ namespace SoplaElCartucho.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ConfirmarPedido(string direccion, string ciudad, string codigoPostal, string telefono, string comentarios)
+        public IActionResult ConfirmarPedido(string direccion, string ciudad, string codigoPostal, string telefono, string comentarios)
         {
             if (string.IsNullOrEmpty(direccion) || string.IsNullOrEmpty(ciudad) || string.IsNullOrEmpty(codigoPostal))
             {
@@ -81,8 +86,12 @@ namespace SoplaElCartucho.Web.Controllers
                 return RedirectToAction("Checkout");
             }
 
-            var carrito = Session["Carrito"] as List<CarritoItem>;
-            if (carrito == null || carrito.Count == 0)
+            var carritoJson = HttpContext.Session.GetString("Carrito");
+            var carrito = string.IsNullOrEmpty(carritoJson) 
+                ? new List<CarritoItem>() 
+                : JsonSerializer.Deserialize<List<CarritoItem>>(carritoJson) ?? new List<CarritoItem>();
+            
+            if (carrito.Count == 0)
             {
                 TempData["Error"] = "Tu carrito está vacío. ¡Vuelve a intentarlo! 🔄";
                 return RedirectToAction("Index", "Catalogo");
@@ -93,7 +102,7 @@ namespace SoplaElCartucho.Web.Controllers
             var pedido = new Pedido
             {
                 Id = _ultimoId,
-                NombreUsuario = User.Identity.Name,
+                NombreUsuario = User.Identity?.Name ?? "Anónimo",
                 Estado = "Pendiente",
                 FechaPedido = DateTime.Now,
                 DireccionEnvio = direccion,
@@ -117,18 +126,18 @@ namespace SoplaElCartucho.Web.Controllers
 
             _pedidos.Add(pedido);
 
-            Session["Carrito"] = new List<CarritoItem>();
-            Session["CarritoCount"] = 0;
+            HttpContext.Session.SetString("Carrito", "[]");
+            HttpContext.Session.SetInt32("CarritoCount", 0);
 
             TempData["Exito"] = $"¡Pedido #{pedido.Id} confirmado! 🎉 Gracias por tu compra.";
             return RedirectToAction("Confirmacion", new { id = pedido.Id });
         }
 
-        public ActionResult Confirmacion(int id)
+        public IActionResult Confirmacion(int id)
         {
             var pedido = _pedidos.FirstOrDefault(p => p.Id == id);
             
-            if (pedido == null || pedido.NombreUsuario != User.Identity.Name)
+            if (pedido == null || pedido.NombreUsuario != User.Identity?.Name)
             {
                 return RedirectToAction("Index");
             }
@@ -138,7 +147,7 @@ namespace SoplaElCartucho.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cancelar(int id)
+        public IActionResult Cancelar(int id)
         {
             var pedido = _pedidos.FirstOrDefault(p => p.Id == id);
             
@@ -148,7 +157,7 @@ namespace SoplaElCartucho.Web.Controllers
                 return RedirectToAction("Index");
             }
 
-            if (pedido.NombreUsuario != User.Identity.Name)
+            if (pedido.NombreUsuario != User.Identity?.Name)
             {
                 TempData["Error"] = "No puedes cancelar pedidos de otros usuarios.";
                 return RedirectToAction("Index");
@@ -169,7 +178,7 @@ namespace SoplaElCartucho.Web.Controllers
         #region Admin Actions
 
         [Authorize(Roles = "Admin")]
-        public ActionResult Admin()
+        public IActionResult Admin()
         {
             var todosPedidos = _pedidos.OrderByDescending(p => p.FechaPedido).ToList();
             return View(todosPedidos);
@@ -178,7 +187,7 @@ namespace SoplaElCartucho.Web.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public ActionResult CambiarEstado(int id, string nuevoEstado)
+        public IActionResult CambiarEstado(int id, string nuevoEstado)
         {
             var pedido = _pedidos.FirstOrDefault(p => p.Id == id);
             
