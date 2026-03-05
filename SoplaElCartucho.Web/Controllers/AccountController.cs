@@ -1,15 +1,21 @@
 using System;
-using System.Web.Mvc;
-using System.Web.Security;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SoplaElCartucho.Web.Controllers
 {
     public class AccountController : Controller
     {
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public IActionResult Login(string returnUrl)
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated == true)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -21,7 +27,7 @@ namespace SoplaElCartucho.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(string username, string password, bool rememberMe, string returnUrl)
+        public async Task<IActionResult> Login(string username, string password, bool rememberMe, string returnUrl)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
@@ -34,8 +40,24 @@ namespace SoplaElCartucho.Web.Controllers
 
             if (esValido)
             {
-                FormsAuthentication.SetAuthCookie(username, rememberMe);
-                
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, username),
+                    new Claim(ClaimTypes.Role, "User")
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = rememberMe,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(rememberMe ? 30 : 1)
+                };
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+
                 if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                 {
                     return Redirect(returnUrl);
@@ -51,9 +73,9 @@ namespace SoplaElCartucho.Web.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Register()
+        public IActionResult Register()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated == true)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -64,7 +86,7 @@ namespace SoplaElCartucho.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(string username, string email, string password, string confirmPassword)
+        public async Task<IActionResult> Register(string username, string email, string password, string confirmPassword)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email) || 
                 string.IsNullOrEmpty(password))
@@ -91,29 +113,39 @@ namespace SoplaElCartucho.Web.Controllers
                 return View();
             }
 
-            FormsAuthentication.SetAuthCookie(username, false);
-            
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, username),
+                new Claim(ClaimTypes.Email, email),
+                new Claim(ClaimTypes.Role, "User")
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity));
+
             TempData["Exito"] = $"¡Bienvenido a Sopla el Cartucho, {username}! 🎉 Tu cuenta ha sido creada.";
             return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
+        public async Task<IActionResult> LogOff()
         {
-            FormsAuthentication.SignOut();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             
-            Session.Clear();
-            Session.Abandon();
+            HttpContext.Session.Clear();
 
             TempData["Exito"] = "¡Hasta pronto, gamer! 👋 Vuelve cuando quieras.";
             return RedirectToAction("Index", "Home");
         }
 
         [Authorize]
-        public ActionResult Profile()
+        public IActionResult Profile()
         {
-            var username = User.Identity.Name;
+            var username = User.Identity?.Name ?? "Gamer";
             
             ViewBag.Username = username;
             ViewBag.Email = $"{username.ToLower()}@example.com";
@@ -124,7 +156,7 @@ namespace SoplaElCartucho.Web.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult AccessDenied()
+        public IActionResult AccessDenied()
         {
             return View();
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using SoplaElCartucho.Web.Models;
 
 namespace SoplaElCartucho.Web.Controllers
@@ -40,7 +41,7 @@ namespace SoplaElCartucho.Web.Controllers
             else
                 ViewBag.Saludo = "¡Buenas noches, gamer! 🌙 Es hora de jugar...";
 
-            var carritoCount = Session["CarritoCount"] ?? 0;
+            var carritoCount = HttpContext.Session.GetInt32("CarritoCount") ?? 0;
             ViewBag.CarritoCount = carritoCount;
 
             return View();

@@ -1,10 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Sopla el Cartucho 🎮</title>
-    
+
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 
     <link href="@Url.Content("~/Content/css/site.css")" rel="stylesheet" type="text/css" />
@@ -215,22 +216,23 @@
             <li>
                 <a href="@Url.Action("Index", "Carrito")">
                     🛒 CARRITO
-                    @if (Session["CarritoCount"] != null && (int)Session["CarritoCount"] > 0)
+                    @{
+                        var carritoCount = Context.Session.GetInt32("CarritoCount") ?? 0;
+                    }
+                    @if (carritoCount > 0)
                     {
-                        <span class="carrito-badge">@Session["CarritoCount"]</span>
+                        <span class="carrito-badge">@carritoCount</span>
                     }
                 </a>
             </li>
-            @if (Request.IsAuthenticated)
+            @if (User.Identity?.IsAuthenticated == true)
             {
                 <li><a href="@Url.Action("Index", "Pedidos")">📦 MIS PEDIDOS</a></li>
-                <li><a href="@Url.Action("Profile", "Account")">👤 @User.Identity.Name</a></li>
+                <li><a href="@Url.Action("Profile", "Account")">👤 @User.Identity?.Name</a></li>
                 <li>
-                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", style = "display:inline;" }))
-                    {
-                        @Html.AntiForgeryToken()
+                    <form asp-action="LogOff" asp-controller="Account" method="post" id="logoutForm" style="display:inline;">
                         <a href="javascript:document.getElementById('logoutForm').submit()">🚪 SALIR</a>
-                    }
+                    </form>
                 </li>
             }
             else

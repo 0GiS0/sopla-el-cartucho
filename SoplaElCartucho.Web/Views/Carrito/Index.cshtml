@@ -50,8 +50,7 @@
                                 <select name="cantidad" onchange="this.form.submit()" style="padding: 5px; font-family: 'Press Start 2P'; font-size: 8px; background-color: #222; color: #fff; border: 2px solid #333;">
                                     @for (int i = 1; i <= 3; i++)
                                     {
-                                        var selected = i == item.Cantidad ? "selected" : "";
-                                        <option value="@i" @selected>@i</option>
+                                        <option value="@i" selected="@(i == item.Cantidad)">@i</option>
                                     }
                                 </select>
                             }

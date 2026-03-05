@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using SoplaElCartucho.Web.Models;
 
 namespace SoplaElCartucho.Web.Controllers
@@ -17,7 +18,7 @@ namespace SoplaElCartucho.Web.Controllers
             new Juego { Id = 9, Titulo = "Final Fantasy VII", ConsolaId = 4, Precio = 49.99m, Stock = 3, ImagenUrl = "/Content/images/juegos/ff7.png" }
         };
 
-        public ActionResult Index()
+        public IActionResult Index()
         {
             var carrito = ObtenerCarrito();
             
@@ -41,7 +42,7 @@ namespace SoplaElCartucho.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Agregar(int juegoId, int cantidad = 1)
+        public IActionResult Agregar(int juegoId, int cantidad = 1)
         {
             var juego = _juegos.FirstOrDefault(j => j.Id == juegoId);
             
@@ -87,7 +88,7 @@ namespace SoplaElCartucho.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Actualizar(int juegoId, int cantidad)
+        public IActionResult Actualizar(int juegoId, int cantidad)
         {
             if (cantidad < 1)
             {
@@ -103,7 +104,7 @@ namespace SoplaElCartucho.Web.Controllers
                 GuardarCarrito(carrito);
             }
 
-            if (Request.IsAjaxRequest())
+            if (IsAjaxRequest())
             {
                 return Json(new { success = true, nuevoTotal = item?.Subtotal ?? 0 });
             }
@@ -112,7 +113,7 @@ namespace SoplaElCartucho.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Eliminar(int juegoId)
+        public IActionResult Eliminar(int juegoId)
         {
             var carrito = ObtenerCarrito();
             var item = carrito.FirstOrDefault(i => i.JuegoId == juegoId);
@@ -124,7 +125,7 @@ namespace SoplaElCartucho.Web.Controllers
                 TempData["Exito"] = $"¡{item.Titulo} eliminado del carrito!";
             }
 
-            if (Request.IsAjaxRequest())
+            if (IsAjaxRequest())
             {
                 return Json(new { success = true });
             }
@@ -133,44 +134,48 @@ namespace SoplaElCartucho.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Vaciar()
+        public IActionResult Vaciar()
         {
-            Session["Carrito"] = new List<CarritoItem>();
-            Session["CarritoCount"] = 0;
+            HttpContext.Session.SetString("Carrito", "[]");
+            HttpContext.Session.SetInt32("CarritoCount", 0);
             
             TempData["Exito"] = "Carrito vaciado. ¡Empieza de nuevo la aventura! 🔄";
             return RedirectToAction("Index");
         }
 
-        public ActionResult ObtenerCantidad()
+        public IActionResult ObtenerCantidad()
         {
-            var count = Session["CarritoCount"] ?? 0;
-            return Json(new { cantidad = count }, JsonRequestBehavior.AllowGet);
+            var count = HttpContext.Session.GetInt32("CarritoCount") ?? 0;
+            return Json(new { cantidad = count });
         }
 
         #region Métodos Privados
 
         private List<CarritoItem> ObtenerCarrito()
         {
-            var carrito = Session["Carrito"] as List<CarritoItem>;
-            if (carrito == null)
+            var carritoJson = HttpContext.Session.GetString("Carrito");
+            if (string.IsNullOrEmpty(carritoJson))
             {
-                carrito = new List<CarritoItem>();
-                Session["Carrito"] = carrito;
+                return new List<CarritoItem>();
             }
-            return carrito;
+            return JsonSerializer.Deserialize<List<CarritoItem>>(carritoJson) ?? new List<CarritoItem>();
         }
 
         private void GuardarCarrito(List<CarritoItem> carrito)
         {
-            Session["Carrito"] = carrito;
+            HttpContext.Session.SetString("Carrito", JsonSerializer.Serialize(carrito));
             
             int total = 0;
             foreach (var item in carrito)
             {
                 total += item.Cantidad;
             }
-            Session["CarritoCount"] = total;
+            HttpContext.Session.SetInt32("CarritoCount", total);
+        }
+
+        private bool IsAjaxRequest()
+        {
+            return Request.Headers["X-Requested-With"] == "XMLHttpRequest";
         }
 
         #endregion

@@ -29,7 +29,7 @@
                             foreach (var consola in consolas)
                             {
                                 var selected = ViewBag.ConsolaId != null && (int)ViewBag.ConsolaId == consola.Id ? "selected" : "";
-                                <option value="@consola.Id" @selected>@consola.Nombre</option>
+                                    <option value="@consola.Id" selected="@(ViewBag.ConsolaId != null && (int)ViewBag.ConsolaId == consola.Id)">@consola.Nombre</option>
                             }
                         }
                     </select>
@@ -46,7 +46,7 @@
                             foreach (var genero in generos)
                             {
                                 var selected = ViewBag.GeneroActual != null && ViewBag.GeneroActual.ToString() == genero ? "selected" : "";
-                                <option value="@genero" @selected>@genero</option>
+                                    <option value="@genero" selected="@(ViewBag.GeneroActual != null && ViewBag.GeneroActual.ToString() == genero)">@genero</option>
                             }
                         }
                     </select>
@@ -54,11 +54,11 @@
                 <td style="width: 33%; padding: 10px;">
                     <label style="color: #00ffff; font-size: 10px;">ORDENAR:</label><br/>
                     <select id="filtroOrden" onchange="aplicarFiltros()" style="width: 100%; padding: 8px; margin-top: 5px; font-family: 'Press Start 2P'; font-size: 8px; background-color: #222; color: #fff; border: 2px solid #333;">
-                        <option value="" @(ViewBag.OrdenActual == null ? "selected" : "")>Destacados</option>
-                        <option value="precio-asc" @(ViewBag.OrdenActual != null && ViewBag.OrdenActual.ToString() == "precio-asc" ? "selected" : "")>Precio ↑</option>
-                        <option value="precio-desc" @(ViewBag.OrdenActual != null && ViewBag.OrdenActual.ToString() == "precio-desc" ? "selected" : "")>Precio ↓</option>
-                        <option value="nombre" @(ViewBag.OrdenActual != null && ViewBag.OrdenActual.ToString() == "nombre" ? "selected" : "")>Nombre A-Z</option>
-                        <option value="anio" @(ViewBag.OrdenActual != null && ViewBag.OrdenActual.ToString() == "anio" ? "selected" : "")>Más reciente</option>
+                        <option value="" selected="@(ViewBag.OrdenActual == null)">Destacados</option>
+                        <option value="precio-asc" selected="@(ViewBag.OrdenActual != null && ViewBag.OrdenActual.ToString() == "precio-asc")">Precio ↑</option>
+                        <option value="precio-desc" selected="@(ViewBag.OrdenActual != null && ViewBag.OrdenActual.ToString() == "precio-desc")">Precio ↓</option>
+                        <option value="nombre" selected="@(ViewBag.OrdenActual != null && ViewBag.OrdenActual.ToString() == "nombre")">Nombre A-Z</option>
+                        <option value="anio" selected="@(ViewBag.OrdenActual != null && ViewBag.OrdenActual.ToString() == "anio")">Más reciente</option>
                     </select>
                 </td>
             </tr>
