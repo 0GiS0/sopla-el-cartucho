@@ -1,8 +1,8 @@
-@model SoplaElCartucho.Web.Models.Juego
+@model SoplaElCartucho.Common.Models.Juego
 @{
     ViewBag.Title = Model.Titulo;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var consola = ViewBag.Consola as SoplaElCartucho.Web.Models.Consola;
+    var consola = ViewBag.Consola as SoplaElCartucho.Common.Models.Consola;
 }
 
 <div class="detalle-juego">
@@ -103,7 +103,7 @@
                         ✓ @Model.Stock unidades disponibles
                     </p>
                     
-                                        @using (Html.BeginForm("Agregar", "Carrito", FormMethod.Post))
+                                        using (Html.BeginForm("Agregar", "Carrito", FormMethod.Post))
                     {
                         <input type="hidden" name="juegoId" value="@Model.Id" />
                         
@@ -146,7 +146,7 @@
     }
     
         @{
-        var relacionados = ViewBag.JuegosRelacionados as System.Collections.Generic.List<SoplaElCartucho.Web.Models.Juego>;
+        var relacionados = ViewBag.JuegosRelacionados as System.Collections.Generic.List<SoplaElCartucho.Common.Models.Juego>;
     }
     @if (relacionados != null && relacionados.Count > 0)
     {

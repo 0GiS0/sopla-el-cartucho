@@ -24,7 +24,7 @@
         <table style="width: 100%; margin-top: 20px; border-collapse: separate; border-spacing: 15px;">
             <tr>
                 @{
-                    var consolas = ViewData["ConsolasDestacadas"] as System.Collections.Generic.List<SoplaElCartucho.Web.Models.Consola>;
+                    var consolas = ViewData["ConsolasDestacadas"] as System.Collections.Generic.List<SoplaElCartucho.Common.Models.Consola>;
                     int count = 0;
                 }
                 @if (consolas != null)
@@ -68,7 +68,7 @@
         <table style="width: 100%; margin-top: 20px; border-collapse: separate; border-spacing: 15px;">
             <tr>
                 @{
-                    var juegos = ViewData["JuegosDestacados"] as System.Collections.Generic.List<SoplaElCartucho.Web.Models.Juego>;
+                    var juegos = ViewData["JuegosDestacados"] as System.Collections.Generic.List<SoplaElCartucho.Common.Models.Juego>;
                 }
                 @if (juegos != null)
                 {

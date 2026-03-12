@@ -3,32 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
-using SoplaElCartucho.Web.Models;
+using SoplaElCartucho.Business.Services;
+using SoplaElCartucho.Common.Models;
 
 namespace SoplaElCartucho.Web.Controllers
 {
+
     [Authorize]
     public class PedidosController : Controller
     {
-        private static List<Pedido> _pedidos = new List<Pedido>();
-        private static int _ultimoId = 0;
+        private readonly PedidoService _pedidoService;
+
+        public PedidosController()
+        {
+            _pedidoService = new PedidoService();
+        }
 
         public ActionResult Index()
         {
             var nombreUsuario = User.Identity.Name;
-            
-            var misPedidos = _pedidos
-                .Where(p => p.NombreUsuario == nombreUsuario)
-                .OrderByDescending(p => p.FechaPedido)
-                .ToList();
+
+            var misPedidos = _pedidoService.ObtenerPedidosPorUsuario(nombreUsuario);
 
             return View(misPedidos);
         }
 
         public ActionResult Detalle(int id)
         {
-            var pedido = _pedidos.FirstOrDefault(p => p.Id == id);
-            
+            var pedido = _pedidoService.ObtenerPedidoPorId(id);
+
             if (pedido == null)
             {
                 TempData["Error"] = "Pedido no encontrado. ¿Seguro que existe? 🤔";
@@ -47,7 +50,7 @@ namespace SoplaElCartucho.Web.Controllers
         public ActionResult Checkout()
         {
             var carrito = Session["Carrito"] as List<CarritoItem>;
-            
+
             if (carrito == null || carrito.Count == 0)
             {
                 TempData["Error"] = "Tu carrito está vacío. ¡Añade algunos juegos primero! 🎮";
@@ -65,7 +68,7 @@ namespace SoplaElCartucho.Web.Controllers
                     Cantidad = item.Cantidad
                 }).ToList()
             };
-            
+
             pedido.CalcularTotales();
 
             return View(pedido);
@@ -88,11 +91,8 @@ namespace SoplaElCartucho.Web.Controllers
                 return RedirectToAction("Index", "Catalogo");
             }
 
-            _ultimoId++;
-            
             var pedido = new Pedido
             {
-                Id = _ultimoId,
                 NombreUsuario = User.Identity.Name,
                 Estado = "Pendiente",
                 FechaPedido = DateTime.Now,
@@ -104,7 +104,6 @@ namespace SoplaElCartucho.Web.Controllers
                 Comentarios = comentarios,
                 Detalles = carrito.Select(item => new DetallePedido
                 {
-                    PedidoId = _ultimoId,
                     JuegoId = item.JuegoId,
                     TituloJuego = item.Titulo,
                     ImagenJuego = item.ImagenUrl,
@@ -115,7 +114,9 @@ namespace SoplaElCartucho.Web.Controllers
 
             pedido.CalcularTotales();
 
-            _pedidos.Add(pedido);
+            // Guardar en base de datos y obtener el ID generado
+            int pedidoId = _pedidoService.CrearPedido(pedido);
+            pedido.Id = pedidoId;
 
             Session["Carrito"] = new List<CarritoItem>();
             Session["CarritoCount"] = 0;
@@ -126,8 +127,8 @@ namespace SoplaElCartucho.Web.Controllers
 
         public ActionResult Confirmacion(int id)
         {
-            var pedido = _pedidos.FirstOrDefault(p => p.Id == id);
-            
+            var pedido = _pedidoService.ObtenerPedidoPorId(id);
+
             if (pedido == null || pedido.NombreUsuario != User.Identity.Name)
             {
                 return RedirectToAction("Index");
@@ -140,8 +141,8 @@ namespace SoplaElCartucho.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Cancelar(int id)
         {
-            var pedido = _pedidos.FirstOrDefault(p => p.Id == id);
-            
+            var pedido = _pedidoService.ObtenerPedidoPorId(id);
+
             if (pedido == null)
             {
                 TempData["Error"] = "Pedido no encontrado.";
@@ -160,8 +161,8 @@ namespace SoplaElCartucho.Web.Controllers
                 return RedirectToAction("Detalle", new { id = id });
             }
 
-            pedido.CambiarEstado("Cancelado");
-            
+            _pedidoService.ActualizarEstado(id, "Cancelado");
+
             TempData["Exito"] = "Pedido cancelado correctamente.";
             return RedirectToAction("Index");
         }
@@ -171,7 +172,7 @@ namespace SoplaElCartucho.Web.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Admin()
         {
-            var todosPedidos = _pedidos.OrderByDescending(p => p.FechaPedido).ToList();
+            var todosPedidos = _pedidoService.ObtenerPedidos();
             return View(todosPedidos);
         }
 
@@ -180,11 +181,11 @@ namespace SoplaElCartucho.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CambiarEstado(int id, string nuevoEstado)
         {
-            var pedido = _pedidos.FirstOrDefault(p => p.Id == id);
-            
+            var pedido = _pedidoService.ObtenerPedidoPorId(id);
+
             if (pedido != null)
             {
-                pedido.CambiarEstado(nuevoEstado);
+                _pedidoService.ActualizarEstado(id, nuevoEstado);
                 TempData["Exito"] = $"Estado del pedido #{id} actualizado a '{nuevoEstado}'.";
             }
 

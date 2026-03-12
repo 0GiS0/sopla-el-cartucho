@@ -2,6 +2,7 @@ using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using SoplaElCartucho.Data;
 
 namespace SoplaElCartucho.Web
 {
@@ -9,6 +10,10 @@ namespace SoplaElCartucho.Web
     {
         protected void Application_Start()
         {
+            // ⚠️ LEGACY: Inicialización manual de base de datos
+            // 📝 MIGRACIÓN: Usar EF Core Migrations en .NET 8
+            DatabaseInitializer.Inicializar();
+
             AreaRegistration.RegisterAllAreas();
             RegisterRoutes(RouteTable.Routes);
 

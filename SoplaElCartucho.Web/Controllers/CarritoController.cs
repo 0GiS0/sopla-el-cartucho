@@ -3,30 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using SoplaElCartucho.Web.Models;
+using SoplaElCartucho.Business.Services;
+using SoplaElCartucho.Common.Models;
 
 namespace SoplaElCartucho.Web.Controllers
 {
+    /// <summary>
+    /// Controlador para gestión del carrito de compras.
+    /// ⚠️ ANTI-PATRÓN LEGACY: Instanciación directa del servicio sin DI.
+    /// 📝 MIGRACIÓN: Usar inyección de dependencias en constructor.
+    /// Nota: El carrito se mantiene en Session (patrón válido para este escenario).
+    /// </summary>
     public class CarritoController : Controller
     {
-        private static List<Juego> _juegos = new List<Juego>
+        private readonly CatalogoService _catalogoService;
+
+        public CarritoController()
         {
-            new Juego { Id = 1, Titulo = "Super Mario Bros 3", ConsolaId = 1, Precio = 29.99m, Stock = 5, ImagenUrl = "/Content/images/juegos/smb3.png" },
-            new Juego { Id = 4, Titulo = "The Legend of Zelda: A Link to the Past", ConsolaId = 2, Precio = 44.99m, Stock = 4, ImagenUrl = "/Content/images/juegos/zelda-alttp.png" },
-            new Juego { Id = 7, Titulo = "Sonic the Hedgehog 2", ConsolaId = 3, Precio = 24.99m, Stock = 8, ImagenUrl = "/Content/images/juegos/sonic2.png" },
-            new Juego { Id = 9, Titulo = "Final Fantasy VII", ConsolaId = 4, Precio = 49.99m, Stock = 3, ImagenUrl = "/Content/images/juegos/ff7.png" }
-        };
+            _catalogoService = new CatalogoService();
+        }
 
         public ActionResult Index()
         {
             var carrito = ObtenerCarrito();
-            
+
             decimal subtotal = 0;
             foreach (var item in carrito)
             {
                 subtotal += item.Subtotal;
             }
-            
+
             decimal iva = subtotal * 0.21m;
             decimal gastosEnvio = subtotal > 50 ? 0 : 4.99m;
             decimal total = subtotal + iva + gastosEnvio;
@@ -43,8 +49,9 @@ namespace SoplaElCartucho.Web.Controllers
         [HttpPost]
         public ActionResult Agregar(int juegoId, int cantidad = 1)
         {
-            var juego = _juegos.FirstOrDefault(j => j.Id == juegoId);
-            
+            // Obtener juego desde la base de datos
+            var juego = _catalogoService.ObtenerJuegoPorId(juegoId);
+
             if (juego == null)
             {
                 TempData["Error"] = "¡Ups! Ese juego no existe. ¿Seguro que no soñaste con él? 🎮";
@@ -137,7 +144,7 @@ namespace SoplaElCartucho.Web.Controllers
         {
             Session["Carrito"] = new List<CarritoItem>();
             Session["CarritoCount"] = 0;
-            
+
             TempData["Exito"] = "Carrito vaciado. ¡Empieza de nuevo la aventura! 🔄";
             return RedirectToAction("Index");
         }
@@ -164,7 +171,7 @@ namespace SoplaElCartucho.Web.Controllers
         private void GuardarCarrito(List<CarritoItem> carrito)
         {
             Session["Carrito"] = carrito;
-            
+
             int total = 0;
             foreach (var item in carrito)
             {

@@ -1,4 +1,4 @@
-@model System.Collections.Generic.List<SoplaElCartucho.Web.Models.Juego>
+@model System.Collections.Generic.List<SoplaElCartucho.Common.Models.Juego>
 @{
     ViewBag.Title = "Catálogo";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,7 +9,7 @@
         🎮 CATÁLOGO DE JUEGOS
         @if (ViewBag.ConsolaActual != null)
         {
-            var consolaActual = ViewBag.ConsolaActual as SoplaElCartucho.Web.Models.Consola;
+            var consolaActual = ViewBag.ConsolaActual as SoplaElCartucho.Common.Models.Consola;
             <span style="color: #ff00ff;"> - @consolaActual.Nombre</span>
         }
     </h2>
@@ -22,7 +22,7 @@
                     <select id="filtroConsola" onchange="aplicarFiltros()" style="width: 100%; padding: 8px; margin-top: 5px; font-family: 'VT323'; font-size: 20px; background-color: #222; color: #fff; border: 2px solid #333;">
                         <option value="">-- Todas --</option>
                         @{
-                            var consolas = ViewBag.Consolas as System.Collections.Generic.List<SoplaElCartucho.Web.Models.Consola>;
+                            var consolas = ViewBag.Consolas as System.Collections.Generic.List<SoplaElCartucho.Common.Models.Consola>;
                         }
                         @if (consolas != null)
                         {

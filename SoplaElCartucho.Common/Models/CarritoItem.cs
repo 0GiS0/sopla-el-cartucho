@@ -1,6 +1,6 @@
 using System;
 
-namespace SoplaElCartucho.Web.Models
+namespace SoplaElCartucho.Common.Models
 {
     [Serializable]
     public class CarritoItem

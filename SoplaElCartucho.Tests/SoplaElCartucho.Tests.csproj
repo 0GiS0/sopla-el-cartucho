@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- 
     🎮 SOPLA EL CARTUCHO - Tests Legacy con MSTest
     ⚠️ ANTI-PATRÓN: MSTest antiguo sin mocking framework
@@ -53,12 +53,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SoplaElCartucho.Common\SoplaElCartucho.Common.csproj">
+      <Project>{E5F6A7B8-C9D0-1234-EF12-345678901234}</Project>
+      <Name>SoplaElCartucho.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SoplaElCartucho.Business\SoplaElCartucho.Business.csproj">
       <Project>{C3D4E5F6-A7B8-9012-CDEF-123456789012}</Project>
       <Name>SoplaElCartucho.Business</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

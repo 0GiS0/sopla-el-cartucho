@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SoplaElCartucho.Web.Models
+namespace SoplaElCartucho.Common.Models
 {
     [Serializable]
     public class Pedido

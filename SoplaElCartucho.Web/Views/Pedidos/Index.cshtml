@@ -1,4 +1,4 @@
-﻿@model System.Collections.Generic.List<SoplaElCartucho.Web.Models.Pedido>
+﻿@model System.Collections.Generic.List<SoplaElCartucho.Common.Models.Pedido>
 @{
     ViewBag.Title = "Mis Pedidos";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -63,7 +63,7 @@
                             </a>
                             @if (pedido.Estado == "Pendiente" || pedido.Estado == "Procesando")
                             {
-                                @using (Html.BeginForm("Cancelar", "Pedidos", new { id = pedido.Id }, FormMethod.Post, new { style = "display: inline;" }))
+                                using (Html.BeginForm("Cancelar", "Pedidos", new { id = pedido.Id }, FormMethod.Post, new { style = "display: inline;" }))
                                 {
                                     @Html.AntiForgeryToken()
                                     <button type="submit" style="background: none; border: none; color: #ff0000; font-size: 8px; cursor: pointer; font-family: 'Press Start 2P';"

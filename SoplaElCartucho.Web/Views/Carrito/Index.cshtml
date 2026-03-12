@@ -1,4 +1,4 @@
-@model System.Collections.Generic.List<SoplaElCartucho.Web.Models.CarritoItem>
+@model System.Collections.Generic.List<SoplaElCartucho.Common.Models.CarritoItem>
 @{
     ViewBag.Title = "Mi Carrito";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -81,14 +81,20 @@
                         📋 RESUMEN DEL PEDIDO
                     </h3>
                     
+                    @{
+                        var subtotal = ViewBag.Subtotal as decimal?;
+                        var iva = ViewBag.IVA as decimal?;
+                        var gastosEnvio = ViewBag.GastosEnvio as decimal?;
+                        var total = ViewBag.Total as decimal?;
+                    }
                     <table style="width: 100%; font-size: 10px;">
                         <tr>
                             <td style="color: #888; padding: 8px 0;">Subtotal:</td>
-                            <td style="text-align: right; color: #fff;">@((ViewBag.Subtotal as decimal?)?.ToString("C") ?? "0,00 €")</td>
+                            <td style="text-align: right; color: #fff;">@(subtotal.HasValue ? subtotal.Value.ToString("C") : "0,00 €")</td>
                         </tr>
                         <tr>
                             <td style="color: #888; padding: 8px 0;">IVA (21%):</td>
-                            <td style="text-align: right; color: #fff;">@((ViewBag.IVA as decimal?)?.ToString("C") ?? "0,00 €")</td>
+                            <td style="text-align: right; color: #fff;">@(iva.HasValue ? iva.Value.ToString("C") : "0,00 €")</td>
                         </tr>
                         <tr>
                             <td style="color: #888; padding: 8px 0;">Gastos de envío:</td>
@@ -99,14 +105,14 @@
                                 }
                                 else
                                 {
-                                    <span style="color: #fff;">@((ViewBag.GastosEnvio as decimal?)?.ToString("C") ?? "4,99 €")</span>
+                                    <span style="color: #fff;">@(gastosEnvio.HasValue ? gastosEnvio.Value.ToString("C") : "4,99 €")</span>
                                 }
                             </td>
                         </tr>
                         <tr style="border-top: 2px solid #333;">
                             <td style="color: #00ff00; padding: 15px 0; font-size: 12px;">TOTAL:</td>
                             <td style="text-align: right; color: #00ff00; font-size: 14px;">
-                                @((ViewBag.Total as decimal?)?.ToString("C") ?? "0,00 €")
+                                @(total.HasValue ? total.Value.ToString("C") : "0,00 €")
                             </td>
                         </tr>
                     </table>
