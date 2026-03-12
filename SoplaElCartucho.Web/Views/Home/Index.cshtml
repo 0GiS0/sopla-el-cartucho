@@ -1,4 +1,17 @@
-﻿@{
+﻿@functions {
+    public bool TieneImagenDisponible(string ruta)
+    {
+        if (string.IsNullOrEmpty(ruta))
+        {
+            return false;
+        }
+
+        var rutaFisica = System.Web.Hosting.HostingEnvironment.MapPath(ruta);
+        return !string.IsNullOrEmpty(rutaFisica) && System.IO.File.Exists(rutaFisica);
+    }
+}
+
+@{
     ViewBag.Title = "Inicio";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -32,7 +45,7 @@
                     foreach (var consola in consolas)
                     {
                         <td style="background-color: #252538; border: 2px solid #3d3d5c; padding: 20px; text-align: center; width: 16.66%; vertical-align: top; border-radius: 8px;">
-                            @if (!string.IsNullOrEmpty(consola.ImagenUrl))
+                            @if (TieneImagenDisponible(consola.ImagenUrl))
                             {
                                 <img src="@consola.ImagenUrl" alt="@consola.Nombre" style="width: 80px; height: 80px; object-fit: contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
                                 <div style="font-size: 40px; display: none;">🎮</div>
@@ -75,7 +88,7 @@
                     foreach (var juego in juegos)
                     {
                         <td style="background-color: #252538; border: 2px solid #3d3d5c; padding: 20px; text-align: center; width: 25%; vertical-align: top; border-radius: 8px;">
-                            @if (!string.IsNullOrEmpty(juego.ImagenUrl))
+                            @if (TieneImagenDisponible(juego.ImagenUrl))
                             {
                                 <img src="@juego.ImagenUrl" alt="@juego.Titulo" style="width: 100px; height: 100px; object-fit: contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
                                 <div style="width: 100px; height: 100px; background-color: #1a1a2e; margin: 0 auto; display: none; align-items: center; justify-content: center; font-size: 30px;">🎮</div>
@@ -133,8 +146,6 @@
 
 @section Scripts {
     <script type="text/javascript">
-        $(document).ready(function() {
-            console.log('🎮 ¡Sopla el Cartucho está listo!');
-        });
+        console.log('🎮 ¡Sopla el Cartucho está listo!');
     </script>
 }

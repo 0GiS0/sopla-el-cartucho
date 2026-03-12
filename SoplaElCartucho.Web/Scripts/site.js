@@ -1,11 +1,31 @@
 var SoplaElCartucho = SoplaElCartucho || {};
 
-$(document).ready(function() {
+var soplaElCartuchoIniciado = false;
+
+function iniciarSoplaElCartucho() {
+    if (soplaElCartuchoIniciado) {
+        return;
+    }
+
+    soplaElCartuchoIniciado = true;
+
     console.log('🎮 ¡Sopla el Cartucho iniciado!');
     console.log('💨 Framework: jQuery ' + $.fn.jquery);
-    
+
     SoplaElCartucho.init();
-});
+}
+
+if (typeof $ !== 'undefined' && $.fn && typeof $.fn.ready === 'function') {
+    $(document).ready(iniciarSoplaElCartucho);
+} else if (document.readyState === 'loading') {
+    if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', iniciarSoplaElCartucho);
+    } else {
+        window.attachEvent('onload', iniciarSoplaElCartucho);
+    }
+} else {
+    iniciarSoplaElCartucho();
+}
 
 SoplaElCartucho = {
     init: function() {
