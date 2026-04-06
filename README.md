@@ -1,18 +1,25 @@
 # 🎮 Sopla el Cartucho 💨
 
-> **Tu tienda de videojuegos retro favorita**
+<div align="center">
 
-[![CI](https://github.com/0GiS0/sopla-el-cartucho/actions/workflows/ci.yml/badge.svg)](https://github.com/0GiS0/sopla-el-cartucho/actions/workflows/ci.yml)
+[![YouTube Channel Subscribers](https://img.shields.io/youtube/channel/subscribers/UC140iBrEZbOtvxWsJ-Tb0lQ?style=for-the-badge&logo=youtube&logoColor=white&color=red)](https://www.youtube.com/c/GiselaTorres?sub_confirmation=1)
+[![GitHub followers](https://img.shields.io/github/followers/0GiS0?style=for-the-badge&logo=github&logoColor=white)](https://github.com/0GiS0)
+[![LinkedIn Follow](https://img.shields.io/badge/LinkedIn-S%C3%ADgueme-blue?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/giselatorresbuitrago/)
+[![X Follow](https://img.shields.io/badge/X-S%C3%ADgueme-black?style=for-the-badge&logo=x&logoColor=white)](https://twitter.com/0GiS0)
+
+</div>
+
+---
+
+![CI](https://github.com/0GiS0/sopla-el-cartucho/actions/workflows/ci.yml/badge.svg)
 ![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.8-purple?style=flat-square)
 ![ASP.NET MVC](https://img.shields.io/badge/ASP.NET%20MVC-3-blue?style=flat-square)
 
-## 📋 Descripción
+¡Hola developer 👋🏻! En este repo encontrarás **Sopla el Cartucho**, una tienda online de videojuegos retro construida con .NET Framework 4.8 y ASP.NET MVC. Es un proyecto legacy intencional que usamos como ejemplo para workshops de migración a .NET 8+ y ASP.NET Core. Porque todos lo hemos hecho: soplar el cartucho para que funcione 💨
 
-**Sopla el Cartucho** es una tienda online de videojuegos retro construida con .NET Framework y ASP.NET MVC.
-
-### ¿Por qué "Sopla el Cartucho"?
-
-Porque todos lo hemos hecho: soplar el cartucho para que funcione. Es el ritual universal de todo gamer retro. 💨
+<a href="https://youtu.be/ONSog4WgUmw">
+  <img src="https://img.youtube.com/vi/ONSog4WgUmw/maxresdefault.jpg" alt="Sopla el Cartucho - Tienda Retro con .NET Framework" width="100%" />
+</a>
 
 ## 🛠️ Stack Tecnológico
 
