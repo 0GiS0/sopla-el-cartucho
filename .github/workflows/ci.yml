@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout código
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Configurar MSBuild
         uses: microsoft/setup-msbuild@v2
